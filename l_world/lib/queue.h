@@ -10,8 +10,8 @@
  
 *******************************************************************************/
 
-#ifndef __LQUEUE_H__
-#define __LQUEUE_H__
+#ifndef QUEUE_H_
+#define QUEUE_H_
 
 #include "list.h"
 
@@ -35,4 +35,4 @@ typedef queue {
 #ifdef __cplusplus
 }
 #endif
-#endif //__LQUEUE_H__
+#endif //QUEUE_H_

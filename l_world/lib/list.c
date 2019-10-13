@@ -10,11 +10,16 @@
  
 *******************************************************************************/
 
+#include "list.h"
+#include "../inc/err.h"
+
+#include <stdlib.h>
+
 // true The pointer of link node is not NULL
 // false The pointer of link node is NULL
 #define CHK_NODE_VALID(pnode)   (NULL != (pnode))
 
-Err_t SList_Insert(SNode_t * const _pbase, SNode_t * const _pin)
+err_t SList_Insert(SNode_t * const _pbase, SNode_t * const _pin)
 {
     if (!CHK_NODE_VALID(_pbase) || !CHK_NODE_VALID(_pin)) {
         return ERR_NULL;
@@ -26,7 +31,7 @@ Err_t SList_Insert(SNode_t * const _pbase, SNode_t * const _pin)
     return ERR_SUCCESS;
 }
 
-Err_t SList_Delete(SNode_t ** const _pbase, SNode_t * const _pdel, ListType_t _lt)
+err_t SList_Delete(SNode_t ** const _pbase, SNode_t * const _pdel, ListType_t _lt)
 {
     if (!CHK_NODE_VALID(_pbase) || !CHK_NODE_VALID(_pdel)) {
         return ERR_NULL;
@@ -57,9 +62,9 @@ Err_t SList_Delete(SNode_t ** const _pbase, SNode_t * const _pdel, ListType_t _l
     return ERR_SUCCESS;
 }
 
-Err_t SList_Search(SNode_t * const _pbase, SNode_t * const _psch, , ListType_t _lt)
+err_t SList_Search(SNode_t * const _pbase, SNode_t * const _psch, ListType_t _lt)
 {
-    if (!CHK_NODE_VALID(_pbase) || !CHK_NODE_VALID(_pdel)) {
+    if (!CHK_NODE_VALID(_pbase) || !CHK_NODE_VALID(_psch)) {
         return ERR_NULL;
     }
 
@@ -79,9 +84,9 @@ Err_t SList_Search(SNode_t * const _pbase, SNode_t * const _psch, , ListType_t _
 
 
 // Double link node list implementation below/following
-Err_t DList_Insert(DNode_t * const _pbase, DNode_t * const _pin)
+err_t DList_Insert(DNode_t * const _pbase, DNode_t * const _pin)
 {
-    if (!CHK_NODE_VALID(_pbase) || !CHK_NODE_VALID(_pdel)) {
+    if (!CHK_NODE_VALID(_pbase) || !CHK_NODE_VALID(_pin)) {
         return ERR_NULL;
     }
 
@@ -94,13 +99,13 @@ Err_t DList_Insert(DNode_t * const _pbase, DNode_t * const _pin)
 
     return ERR_SUCCESS;
 }
-Err_t DList_Delete(DNode_t * const _pbase, DNode_t * const _pdel)
+err_t DList_Delete(DNode_t * const _pbase, DNode_t * const _pdel)
 {
 
     return ERR_SUCCESS;
 }
 
-Err_t DList_Search(DNode_t * const _pbase, DNode_t * const _psch)
+err_t DList_Search(DNode_t * const _pbase, DNode_t * const _psch)
 {
 
     return ERR_SUCCESS;

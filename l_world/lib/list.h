@@ -10,12 +10,12 @@
  
 *******************************************************************************/
 
-#ifndef __LLIST_H__
-#define __LLIST_H__
+#ifndef LIST_H_
+#define LIST_H_
 
-#include "../inc/lerr.h"
+#include "../inc/err.h"
 
-#ifndef __cplusplus
+#ifdef __cplusplus
 extern "C" {
 #endif
 
@@ -37,15 +37,15 @@ typedef struct dnode {
 } DNode_t;
 
 
-extern Err_t SList_Insert(SNode_t * const _pbase, SNode_t * const _pin);
-extern Err_t SList_Delete(SNode_t * const _pbase, SNode_t * const _pdel, ListType_t _lt);
-extern Err_t SList_Search(SNode_t * const _pbase, SNode_t * const _psch, ListType_t _lt);
+extern err_t SList_Insert(SNode_t * const _pbase, SNode_t * const _pin);
+extern err_t SList_Delete(SNode_t * const _pbase, SNode_t * const _pdel, ListType_t _lt);
+extern err_t SList_Search(SNode_t * const _pbase, SNode_t * const _psch, ListType_t _lt);
 
-extern Err_t DList_Insert(DNode_t * const _pbase, DNode_t * const _pin);
-extern Err_t DList_Delete(DNode_t * const _pbase, DNode_t * const _pdel, ListType_t _lt);
-extern Err_t DList_Search(DNode_t * const _pbase, DNode_t * const _psch, ListType_t _lt);
+extern err_t DList_Insert(DNode_t * const _pbase, DNode_t * const _pin);
+extern err_t DList_Delete(DNode_t * const _pbase, DNode_t * const _pdel, ListType_t _lt);
+extern err_t DList_Search(DNode_t * const _pbase, DNode_t * const _psch, ListType_t _lt);
 
-#ifndef __cplusplus
+#ifdef __cplusplus
 }
 #endif
-#endif //__LLIST_H__
+#endif //LIST_H_
