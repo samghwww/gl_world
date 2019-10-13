@@ -1,0 +1,7 @@
+
+This project is an open SOC lite micro kernel.
+
+Feature:
+1. No task/thread context switch,
+2. It's base on event driver micro system,
+3. It's a simple,efficent,few ram/rom open source code.

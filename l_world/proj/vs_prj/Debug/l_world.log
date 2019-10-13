@@ -1,0 +1,3 @@
+﻿  lsched.c
+  F:\GL\l_world\kernel\sched\lsched.c(24) : warning C4716: 'lSched_PutTask': must return a value
+  l_world.vcxproj -> F:\GL\l_world\proj\vs_prj\Debug\l_world.exe
