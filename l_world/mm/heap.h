@@ -1,3 +1,15 @@
+/*******************************************************************************
+Copyright (C) 2019 Sam He(HeGuanglin)
+
+Discription:
+    Definition of the heap implement.
+
+History:
+    Date        Author          Notes
+ 2019/10/14     Sam He          The first version
+
+*******************************************************************************/
+
 #ifndef HEAP_H_
 #define HEAP_H_
 

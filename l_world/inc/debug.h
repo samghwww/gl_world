@@ -1,12 +1,11 @@
 /*******************************************************************************
- Copyright (C) 2019 Sam He(HeGuanglin)
+Copyright (C) 2019 Sam He(HeGuanglin)
 
- History:
+Discription:
+    Definition of the l system kernel debug infomation.
+History:
     Date        Author          Notes
  2019/10/07     Sam He          The first version
-
- Discription:
-    Definition of the l system kernel debug infomation.
  
 *******************************************************************************/
 
@@ -91,14 +90,14 @@ extern "C" {
     #define log_okl(...)            dbg_printl(__VA_ARGS__)
     #define log_ngl(...)            dbg_printl(__VA_ARGS__)
 #else //DEBUG_ENABLED
-      #define dbg_print(...)
-      #define dbg_printl(...)
-      #define dbg_msg(...)
-      #define dbg_msgl(...)
-      #define dbg_info(...)
-      #define dbg_infol(...)
-      #define dbg_ok(...)
-      #define dbg_ng(...)
+    #define dbg_print(...)
+    #define dbg_printl(...)
+    #define dbg_msg(...)
+    #define dbg_msgl(...)
+    #define dbg_info(...)
+    #define dbg_infol(...)
+    #define dbg_ok(...)
+    #define dbg_ng(...)
 #endif //#else DEBUG_ENABLED
 #ifdef __cplusplus
 }

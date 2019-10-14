@@ -1,12 +1,12 @@
 /*******************************************************************************
- Copyright (C) 2019 Sam He(HeGuanglin)
+Copyright (C) 2019 Sam He(HeGuanglin)
 
- History:
+Discription:
+    Implementation of the l system kernel scheduler.
+
+History:
     Date        Author          Notes
  2019/10/07     Sam He          The first version
-
- Discription:
-    Implementation of the l system kernel scheduler.
  
 *******************************************************************************/
 
@@ -15,12 +15,12 @@
 
 #include "../../lib/queue.h"
 
-void lScheduler(void)
+void Scheduler(void)
 {
 
 }
 
-Err_t lSched_PutTask(void *_ptsk)
+Err_t Sched_PutTask(void *_ptsk)
 {
 
 }

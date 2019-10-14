@@ -1,13 +1,13 @@
 /*******************************************************************************
- Copyright (C) 2019 Sam He(HeGuanglin)
+Copyright (C) 2019 Sam He(HeGuanglin)
 
- History:
+Discription:
+    Implementation of the single linke node and double linke node list.
+
+History:
     Date        Author          Notes
  2019/10/06     Sam He          The first version
 
- Discription:
-    Implementation of the single linke node and double linke node list.
- 
 *******************************************************************************/
 
 #include "list.h"
@@ -40,7 +40,7 @@ err_t SList_Delete(SNode_t ** const _pbase, SNode_t * const _pdel, ListType_t _l
     SNode_t * curr = *_pbase;
     // Handle the first node
     if (*_pbase == _pdel) {
-        
+
         if (LIST_TYPE_CIRCLE == _lt) {
             while (curr->pnxt != *_pbase) {
                 curr = curr->pnxt;
@@ -51,7 +51,7 @@ err_t SList_Delete(SNode_t ** const _pbase, SNode_t * const _pdel, ListType_t _l
         return ERR_SUCCESS;
     }
 
-    
+
     while (curr->pnxt) {
         if (curr->pnxt == _pdel) {
             curr->pnxt = curr->pnxt->pnxt;

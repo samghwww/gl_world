@@ -1,4 +1,4 @@
-/*****************************************
+/*******************************************************************************
 Copyright (C) Sam He(HeGuanglin) 2019
 
 Brief/Descirption:
@@ -7,7 +7,7 @@ History:
 // The newest/lasted version should be list above here.
   Date        Author    Note 
 2019/10/09    Sam He    The first version
-******************************************/
+*******************************************************************************/
 #pragma once
 #ifndef STACK_H_
 #define STACK_H_

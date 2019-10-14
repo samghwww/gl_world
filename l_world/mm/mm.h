@@ -1,13 +1,13 @@
-/*****************************************
+/*******************************************************************************
 Copyright (C) Sam He(HeGuanglin) 2019
 
 Brief/Descirption:
-
+    Definition of memory pool implement.
 History:
 // The newest/lasted version should be list above here.
-  Date        Author    Note 
-2019/10/09    Sam He    The first version
-******************************************/
+    Date        Author    Note
+ 2019/10/09     Sam He    The first version
+*******************************************************************************/
 #pragma once
 #ifndef __MM_H__
 #define __MM_H__

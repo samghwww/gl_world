@@ -1,13 +1,12 @@
 /*******************************************************************************
- Copyright (C) 2019 Sam He(HeGuanglin)
+Copyright (C) 2019 Sam He(HeGuanglin)
 
- History:
+Discription:
+    Definition of the single linke node and double linke node list.
+History:
     Date        Author          Notes
  2019/10/06     Sam He          The first version
 
- Discription:
-    Definition of the single linke node and double linke node list.
- 
 *******************************************************************************/
 
 #ifndef LIST_H_
