@@ -13,6 +13,7 @@ History:
 #include "../../inc/debug.h"
 #include "../../inc/err.h"
 
+#include "../task.h"
 #include "../../lib/queue.h"
 
 void Scheduler(void)

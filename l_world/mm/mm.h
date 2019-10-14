@@ -9,8 +9,8 @@ History:
  2019/10/09     Sam He    The first version
 *******************************************************************************/
 #pragma once
-#ifndef __MM_H__
-#define __MM_H__
+#ifndef MM_H_
+#define MM_H_
 
 
 
@@ -41,4 +41,4 @@ typedef struct{
 #ifdef __cplusplus
 }
 #endif
-#endif //__MM_H__
+#endif //MM_H_

@@ -1,17 +1,17 @@
 /*******************************************************************************
- Copyright (C) 2019 Sam He(HeGuanglin)
+Copyright (C) 2019 Sam He(HeGuanglin)
 
- History:
+Discription:
+    Define warning/error code number.
+
+History:
     Date        Author          Notes
  2019/10/06     Sam He          The first version
 
- Discription:
-    Define warning/error code number.
- 
 *******************************************************************************/
 
-#ifndef _ERR_H_
-#define _ERR_H_
+#ifndef ERR_H_
+#define ERR_H_
 
 #ifdef __cplusplus
 extern "C" {
@@ -46,4 +46,4 @@ typedef enum {
 #ifdef __cplusplus
 }
 #endif
-#endif //_ERR_H_
+#endif //ERR_H_

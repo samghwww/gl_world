@@ -10,11 +10,27 @@
  
 *******************************************************************************/
 
-typedef unsigned char TaskPri_t;
+#ifndef TASK_H_
+#define TASK_H_
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+// Task entry function type.
+typedef void (*TaskFnc_t)(void *parg);
+// Task priority data type.
+typedef unsigned char TaskPrio_t;
+
+// Task control block data structure.
 typedef struct task {
-  struct task* nxt;
-  void (*fnc)(void*);
-  void* arg;
-  TaskPri_t pri;
+  struct task *pnxt; // Point to the next task control block.
+  TaskFnc_t   *pfnc; // Task entry function.
+  void        *parg; // Task entry function parameter/argument pointer.
+  TaskPrio_t   prio; // Task priority.
 } Task_t;
 
+#ifdef __cplusplus
+}
+#endif
+#endif //TASK_H_

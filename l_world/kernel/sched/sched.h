@@ -10,8 +10,20 @@ History:
 
 *******************************************************************************/
 
+#ifndef SCHED_H_
+#define SCHED_H_
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 typedef struct tcb {
     struct tcb *prv;
     struct tcb *nxt;
 
-} TCB_t
+} TCB_t;
+
+#ifdef __cplusplus
+}
+#endif
+#endif //SCHED_H_
