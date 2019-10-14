@@ -24,10 +24,10 @@ typedef unsigned char TaskPrio_t;
 
 // Task control block data structure.
 typedef struct task {
-  struct task *pnxt; // Point to the next task control block.
-  TaskFnc_t   *pfnc; // Task entry function.
-  void        *parg; // Task entry function parameter/argument pointer.
-  TaskPrio_t   prio; // Task priority.
+    struct task *pnxt; // Point to the next task control block.
+    TaskFnc_t   *pfnc; // Task entry function.
+    void        *parg; // Task entry function parameter/argument pointer.
+    TaskPrio_t   prio; // Task priority.
 } Task_t;
 
 #ifdef __cplusplus

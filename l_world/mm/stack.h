@@ -24,14 +24,14 @@ extern "C" {
 
 typedef unsigned long long ux_t;
 typedef struct mblk {
-  ux_t         sz;  // Block size
-  struct mblk* nxt; // If the block is free block this point to the next free block
+    ux_t         sz;  // Block size
+    struct mblk* nxt; // If the block is free block this point to the next free block
 } mblk_t;
 
 typedef struct{
-  void    *base;  // memory base address
-  mblk_t  *frlst; // Free list
-  ux_t     sz;    // memory pool size
+    void    *base;  // memory base address
+    mblk_t  *frlst; // Free list
+    ux_t     sz;    // memory pool size
 } mm_t;
 
 typedef struct {
