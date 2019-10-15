@@ -1,21 +1,17 @@
 /*******************************************************************************
-Copyright (C) 2019 Sam He(HeGuanglin)
+ Copyright (C) 2019 Sam He(HeGuanglin)
 
-Discription:
-    Definition/declaratino of l system kernel basic data type.
-History:
+ History:
     Date        Author          Notes
- 2019/10/07     Sam He          The first version
+ 2019/10/13     Sam He          The first version
+
+ Discription:
+    Definition/declaratino of l system about basic data type.
  
 *******************************************************************************/
 
 #ifndef TYPEDEF_H_
 #define TYPEDEF_H_
-
-
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 typedef unsigned                            sz_t;
 
@@ -47,7 +43,5 @@ typedef volatile unsigned long              vu64;
 typedef volatile unsigned long long         vull;
 typedef vull                                vux_t;
 
-#ifdef __cplusplus
-}
-#endif
+
 #endif //TYPEDEF_H_

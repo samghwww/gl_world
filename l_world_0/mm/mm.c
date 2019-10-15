@@ -1,14 +1,3 @@
-/*******************************************************************************
-Copyright (C) 2019 Sam He(HeGuanglin)
-
-Discription:
-    Implementation of memory pool or memory heap.
-
-History:
-    Date        Author          Notes
- 2019/10/06     Sam He          The first version
-
-*******************************************************************************/
 
 #include "mm.h"
 
@@ -19,7 +8,7 @@ History:
 #define BLK_USZ(sz) ( (sz)+sizeof(mblk_t) )
 
 // memory block pointer convert to memory base address
-#define BLK2MEM(pb) ( (void*)(&((pb)->nxt)) )
+#define BLK2MEM(pb) ( (void*)(&((pb)->nxt)) ) 
 
 // Memory address convert to memory pointer
 #define MEM2BLK(pm) ( (mblk_t*)(((char*)pm)-sizeof(void*)) )
@@ -55,7 +44,7 @@ static inline err_t mm_freeBlkListAdd(mm_t * const _pmm,
 // _mmSz: The size of memory pool.
 void* mm_init(void const * const _pmm, ux_t _mmSz)
 {
-
+  
 }
 
 // Allocate a new memory block for user.
@@ -68,11 +57,11 @@ void* mm_malloc(mm_t *_pmm, ux_t _sz)
     mblk_t* tmp = _pmm->frlst;
     while (tmp) {
     if (tmp >= _sz) {
-      goto MALLOC_SUCCEED;
+        goto MALLOC_SUCCEED;
     } else {
-      tmp = tmp->nxt;
+        tmp = tmp->nxt;
     }
-  }
+    }
 MALLOC_SUCCEED:
   // If free memory block will be used completely.
   // Just remove this current free node.
@@ -87,7 +76,7 @@ MALLOC_SUCCEED:
 
     // If it's not the first free list node
     // done such as the following/below code.
-  }
+  } 
   else {
 
   }
