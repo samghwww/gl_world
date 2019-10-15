@@ -12,15 +12,23 @@ History:
 #ifndef EVENT_H_
 #define EVENT_H_
 
+#include <stdbool.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
-typedef struct evt {
-    struct evt *nxt;
+
+typedef struct event {
+    struct evt *pnxt;
 
 } Event_t;
 
+static inline bool Event_IsEmpty(void)
+{
+    return true;
+}
+
+void Event_Handler(void);
 
 #ifdef __cplusplus
 }

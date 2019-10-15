@@ -10,6 +10,19 @@ History:
 
 *******************************************************************************/
 
+
+#include "queue.h"
+#include "../inc/err.h"
+
+
+#include <stdlib.h>
+
+// Pointer(any) convert to single node pointer
+#define POINTER2PSNODE(p)		((SNode_t*)p)
+
+// Pointer(any) convert to double/dual node pointer
+#define POINTER2PDNODE(p)		((DNode_t*)p)
+
 err_t Queue_Init(void)
 {
 
@@ -17,21 +30,29 @@ err_t Queue_Init(void)
 
 err_t Queue_ChgHead(Queue_t * const _pq, void *_p)
 {
-    if (NULL == _pq || NULL == p) {
+    if (NULL == _pq || NULL == _p) {
         return ERR_NULL;
     }
-    ((SNode_t*)_p)->nxt = _pq->head->nxt;
-    _pq->head = _p;
+	if (_pq->phead) {
+		POINTER2PSNODE(_p)->pnxt = POINTER2PSNODE(_pq->phead)->pnxt;
+	}
+    _pq->phead = _p;
     return ERR_SUCCEED;
+}
+
+err_t Queue_AddHead(Queue_t* const _pq, void* _p)
+{
+
+	return ERR_SUCCEED;
 }
 
 err_t Queue_AddTail(Queue_t * const _pq, void *_p)
 {
-    if (NULL == _pq || NULL == p) {
+    if (NULL == _pq || NULL == _p) {
         return ERR_NULL;
     }
-    _p->nxt = NULL;
-    _pq->tail->nxt = _p;
+	POINTER2PSNODE(_p)->pnxt = NULL;
+	POINTER2PSNODE(_pq->ptail)->pnxt = _p;
     return ERR_SUCCEED;
 }
 
@@ -40,79 +61,94 @@ err_t Queue_Insert(void *_pb, void *_pin)
     if (NULL == _pb || NULL == _pin) {
         return ERR_NULL;
     }
-    _pin->nxt = _pb->nxt;
-    _pb->nxt = _pin;
+	POINTER2PSNODE(_pin)->pnxt = POINTER2PSNODE(_pb)->pnxt;
+	POINTER2PSNODE(_pb)->pnxt = _pin;
     return ERR_SUCCEED;
+}
+
+err_t Queue_Add(Queue_t* const _pq, void* const _padd)
+{
+	if (Queue_IsEmpty(_pq)) {
+		Queue_AddHead(_pq, _padd);
+	} else {
+		Queue_AddTail(_pq, _padd);
+	}
+	return ERR_SUCCEED;
 }
 
 err_t Queue_Search(Queue_t const * const _pq, void const * const _psrch)
 {
-    if (NULL == _pb || NULL == _pin) {
+    if (NULL == _pq || NULL == _psrch) {
         return ERR_NOT_FOUND;
     }
-    SNode_t const *tmp = (SNode_t const *)_pq->head;
+    SNode_t const *tmp = POINTER2PSNODE(_pq->phead);
     while (tmp) {
         if (tmp == _psrch) {
             return ERR_SUCCEED;
         } else {
-            tmp = tmp->nxt;
+            tmp = tmp->pnxt;
         }
     }
     return ERR_NOT_FOUND;
 }
 
-void *Queue_PeekHead(Queue_t * const _pq)
-{
-    return (void*)_pq->head;
-}
-
-// Just see/look the tail of queue
-void *Queue_PeekTail(Queue_t * const _pq)
-{
-    return (void*)_pq->tail;
-}
-
-// Get the header of queue and remove it.
-void *Queue_GetHead(Queue_t * const _pq)
-{
-    void *ret = (void*)_pq->head;
-    _pq->head = _pq->head->nxt;
-    return ret;
-}
-
 // Find/Search/Seek the del element and delete it.
-err_t Queue_Del(Queue_t * const _pq, void const * const _pdel)
+err_t Queue_Delete(Queue_t * const _pq, void const * const _pdel)
 {
-    if (NULL == _pq || NULL == _pdel) {
-        return ERR_FAILED;
+    if (NULL == _pq || NULL == _pq->phead || NULL == _pdel) {
+        return ERR_NOT_FOUND;
     }
-    if (_pdel == _pq->head) {
-        _pq->head = _pq->head->nxt;
+    if (_pdel == _pq->phead) {
+        _pq->phead = POINTER2PSNODE(_pq->phead)->pnxt;
         return ERR_SUCCEED;
     }
-    SNode_t *prv = _pq->head;
-    SNode_t *cur = prv->nxt;
+    SNode_t *prv = POINTER2PSNODE(_pq->phead);
+    SNode_t *cur = prv->pnxt;
     while (cur) {
         if (cur == _pdel) {
             break;
         } else {
             prv = cur;
-            cur = cur->nxt;
+            cur = cur->pnxt;
         }
     }
-    prv->nxt = cur->nxt;
+    prv->pnxt = cur ? cur->pnxt : cur;
     return ERR_SUCCEED;
 }
 
 // Delete the queue element that know it's previor
-err_t Queue_DelN(void * const _pprv, void const * const _pdel)
+err_t Queue_DelNode(void * const _pb, void const * const _pdel)
 {
-    if (NULL == _pprv || NULL == _pdel) {
-        return ERR_FAILED;
+    if (NULL == _pb || NULL == _pdel) {
+        return ERR_NOT_FOUND;
     }
-    if (_pprv->nxt != _pdel) {
-        return ERR_NOT_SUPPORT;
+    if (POINTER2PSNODE(_pb)->pnxt != _pdel) {
+        return ERR_NOT_FOUND;
     }
-    _pprv->nxt = _pdel->nxt;
+	POINTER2PSNODE(_pb)->pnxt = POINTER2PSNODE(_pdel)->pnxt;
     return ERR_SUCCEED;
+}
+
+void *Queue_PeekHead(Queue_t const * const _pq)
+{
+    return _pq->phead;
+}
+
+// Just see/look the tail of queue
+void *Queue_PeekTail(Queue_t const * const _pq)
+{
+    return _pq->ptail;
+}
+
+// Get the header of queue and remove it.
+void *Queue_GetHead(Queue_t * const _pq)
+{
+    void *ret = _pq->phead;
+	_pq->phead = POINTER2PSNODE(_pq->phead)->pnxt;
+    return ret;
+}
+
+bool Queue_IsEmpty(Queue_t const * const _pq)
+{
+    return (NULL == _pq->phead) ? true : false;
 }

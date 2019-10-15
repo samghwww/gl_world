@@ -23,6 +23,8 @@ typedef struct tcb {
 
 } TCB_t;
 
+void  Scheduler(void);
+
 #ifdef __cplusplus
 }
 #endif

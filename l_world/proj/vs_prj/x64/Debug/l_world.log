@@ -1,0 +1,11 @@
+﻿  sched.c
+  task.c
+F:\study\gl_world\gl_world\l_world\kernel\task.h(73,7): error C2061:  语法错误: 标识符“Task_Add”
+F:\study\gl_world\gl_world\l_world\kernel\task.h(73,7): error C2059:  语法错误:“;”
+  test.c
+F:\study\gl_world\gl_world\l_world\kernel\task.h(73,22): error C2059:  语法错误:“<parameter-list>”
+F:\study\gl_world\gl_world\l_world\kernel\task.h(73,7): error C2061:  语法错误: 标识符“Task_Add”
+F:\study\gl_world\gl_world\l_world\kernel\task.h(73,7): error C2059:  语法错误:“;”
+F:\study\gl_world\gl_world\l_world\kernel\task.h(73,22): error C2059:  语法错误:“<parameter-list>”
+  正在生成代码...
+F:\study\gl_world\gl_world\l_world\proj\vs_prj\test.c(24,10): warning C4013:  “Task_Add”未定义；假设外部返回 int

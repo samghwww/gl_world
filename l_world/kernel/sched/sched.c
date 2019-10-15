@@ -13,15 +13,21 @@ History:
 #include "../../inc/debug.h"
 #include "../../inc/err.h"
 
+#include "../event.h"
 #include "../task.h"
 #include "../../lib/queue.h"
 
+// L operate system kernel scheduler.
+// All task and event should be handled here.
 void Scheduler(void)
 {
-
-}
-
-Err_t Sched_PutTask(void *_ptsk)
-{
-
+    Task_t *ptsk;
+    while (ptsk = Task_GetHighester()) {
+        if (!Event_IsEmpty()) {
+            Event_Handler(); // Handle event here.
+        }
+        Task_SetSta(ptsk, TASK_STA_RUNNING);
+        Task_EntryFuncCaller(ptsk);
+        Task_SetSta(ptsk, TASK_STA_IDLE);
+    }
 }

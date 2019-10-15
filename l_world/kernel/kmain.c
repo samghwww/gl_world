@@ -1,7 +1,11 @@
 
 
+#include "sched/sched.h"
 #include "../inc/debug.h"
+#include "../inc/err.h"
 
+
+#include <stdbool.h>
 #include <conio.h>
 
 #define PLATFORM_BARE               0
@@ -34,11 +38,21 @@ static inline void pause(void) {
 
 //#define _print(...) printf(__VA_ARGS__)
 
+err_t test_main(void);
+
 int main(int argc, char const** const args)
 {
-    dbg_msgl("Welcome to L WORLD!");
+    dbg_msgl("Welcome to L KERNEL WORLD!");
 
+	test_main();
     
-    pause();
+	while (true) {
+		// Wakeup handle here.
+		
+
+		Scheduler();
+		// Goto sleep/halt/stop here.
+
+	}
     return 0;
 }

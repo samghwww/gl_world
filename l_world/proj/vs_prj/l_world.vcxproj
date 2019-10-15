@@ -30,12 +30,14 @@
   <ItemGroup>
     <ClCompile Include="..\..\kernel\event.c" />
     <ClCompile Include="..\..\kernel\kmain.c" />
+    <ClCompile Include="..\..\kernel\sched\sched.c" />
     <ClCompile Include="..\..\kernel\task.c" />
     <ClCompile Include="..\..\lib\list.c" />
     <ClCompile Include="..\..\lib\queue.c" />
     <ClCompile Include="..\..\mm\heap.c" />
     <ClCompile Include="..\..\mm\mm.c" />
     <ClCompile Include="..\..\mm\stack.c" />
+    <ClCompile Include="test.c" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

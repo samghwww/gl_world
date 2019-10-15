@@ -35,9 +35,9 @@ typedef struct{
 } mm_t;
 
 typedef struct {
-    void* sp;
+    void *sp;
     void *top;
-    ux_t sz;
+    ux_t  sz;
 };
 
 

@@ -1,2 +1,138 @@
-﻿  kmain.c
-  l_world.vcxproj -> F:\GL\gl_world\l_world\proj\vs_prj\Debug\l_world.exe
+﻿  task.c
+F:\study\gl_world\gl_world\l_world\lib\queue.h(22,15): error C2054:  在“queue”之后应输入“(”
+F:\study\gl_world\gl_world\l_world\lib\queue.h(36,29): error C2143:  语法错误: 缺少“)”(在“*”的前面)
+F:\study\gl_world\gl_world\l_world\lib\queue.h(36,29): error C2143:  语法错误: 缺少“{”(在“*”的前面)
+F:\study\gl_world\gl_world\l_world\lib\queue.h(36,47): error C2059:  语法错误:“类型”
+F:\study\gl_world\gl_world\l_world\lib\queue.h(36,50): error C2059:  语法错误:“)”
+F:\study\gl_world\gl_world\l_world\lib\queue.h(37,29): error C2143:  语法错误: 缺少“)”(在“*”的前面)
+F:\study\gl_world\gl_world\l_world\lib\queue.h(37,29): error C2143:  语法错误: 缺少“{”(在“*”的前面)
+F:\study\gl_world\gl_world\l_world\lib\queue.h(37,47): error C2059:  语法错误:“类型”
+F:\study\gl_world\gl_world\l_world\lib\queue.h(37,50): error C2059:  语法错误:“)”
+F:\study\gl_world\gl_world\l_world\lib\queue.h(39,28): error C2143:  语法错误: 缺少“)”(在“const”的前面)
+F:\study\gl_world\gl_world\l_world\lib\queue.h(39,28): error C2143:  语法错误: 缺少“{”(在“const”的前面)
+F:\study\gl_world\gl_world\l_world\lib\queue.h(39,42): error C2373:  “_pq”: 重定义；不同的类型修饰符
+F:\study\gl_world\gl_world\l_world\lib\queue.h(37): message :  参见“_pq”的声明
+F:\study\gl_world\gl_world\l_world\lib\queue.h(39,58): error C2059:  语法错误:“类型”
+F:\study\gl_world\gl_world\l_world\lib\queue.h(39,72): error C2059:  语法错误:“)”
+F:\study\gl_world\gl_world\l_world\lib\queue.h(40,28): error C2143:  语法错误: 缺少“)”(在“*”的前面)
+F:\study\gl_world\gl_world\l_world\lib\queue.h(40,28): error C2143:  语法错误: 缺少“{”(在“*”的前面)
+F:\study\gl_world\gl_world\l_world\lib\queue.h(40,52): error C2059:  语法错误:“类型”
+F:\study\gl_world\gl_world\l_world\lib\queue.h(40,65): error C2059:  语法错误:“)”
+F:\study\gl_world\gl_world\l_world\lib\queue.h(43,30): error C2143:  语法错误: 缺少“)”(在“const”的前面)
+F:\study\gl_world\gl_world\l_world\lib\queue.h(43,30): error C2143:  语法错误: 缺少“{”(在“const”的前面)
+F:\study\gl_world\gl_world\l_world\lib\queue.h(43,47): error C2059:  语法错误:“)”
+F:\study\gl_world\gl_world\l_world\lib\queue.h(43,44): error C2373:  “_pq”: 重定义；不同的类型修饰符
+F:\study\gl_world\gl_world\l_world\lib\queue.h(40): message :  参见“_pq”的声明
+F:\study\gl_world\gl_world\l_world\lib\queue.h(44,30): error C2143:  语法错误: 缺少“)”(在“const”的前面)
+F:\study\gl_world\gl_world\l_world\lib\queue.h(44,30): error C2143:  语法错误: 缺少“{”(在“const”的前面)
+F:\study\gl_world\gl_world\l_world\lib\queue.h(44,47): error C2059:  语法错误:“)”
+F:\study\gl_world\gl_world\l_world\lib\queue.h(44,44): error C2373:  “_pq”: 重定义；不同的类型修饰符
+F:\study\gl_world\gl_world\l_world\lib\queue.h(40): message :  参见“_pq”的声明
+F:\study\gl_world\gl_world\l_world\lib\queue.h(45,29): error C2143:  语法错误: 缺少“)”(在“const”的前面)
+F:\study\gl_world\gl_world\l_world\lib\queue.h(45,29): error C2143:  语法错误: 缺少“{”(在“const”的前面)
+F:\study\gl_world\gl_world\l_world\lib\queue.h(45,46): error C2059:  语法错误:“)”
+F:\study\gl_world\gl_world\l_world\lib\queue.h(45,43): error C2373:  “_pq”: 重定义；不同的类型修饰符
+F:\study\gl_world\gl_world\l_world\lib\queue.h(40): message :  参见“_pq”的声明
+F:\study\gl_world\gl_world\l_world\lib\queue.h(46,29): error C2143:  语法错误: 缺少“)”(在“const”的前面)
+F:\study\gl_world\gl_world\l_world\lib\queue.h(46,29): error C2143:  语法错误: 缺少“{”(在“const”的前面)
+F:\study\gl_world\gl_world\l_world\lib\queue.h(46,46): error C2059:  语法错误:“)”
+F:\study\gl_world\gl_world\l_world\lib\queue.h(46,43): error C2373:  “_pq”: 重定义；不同的类型修饰符
+F:\study\gl_world\gl_world\l_world\lib\queue.h(40): message :  参见“_pq”的声明
+F:\study\gl_world\gl_world\l_world\lib\queue.h(47,7): error C2061:  语法错误: 标识符“Queue_IsEmpty”
+F:\study\gl_world\gl_world\l_world\lib\queue.h(47,7): error C2059:  语法错误:“;”
+F:\study\gl_world\gl_world\l_world\lib\queue.h(47,29): error C2143:  语法错误: 缺少“)”(在“const”的前面)
+F:\study\gl_world\gl_world\l_world\lib\queue.h(47,29): error C2143:  语法错误: 缺少“{”(在“const”的前面)
+F:\study\gl_world\gl_world\l_world\lib\queue.h(47,46): error C2059:  语法错误:“)”
+F:\study\gl_world\gl_world\l_world\lib\queue.h(47,43): error C2373:  “_pq”: 重定义；不同的类型修饰符
+F:\study\gl_world\gl_world\l_world\lib\queue.h(40): message :  参见“_pq”的声明
+F:\study\gl_world\gl_world\l_world\kernel\task.c(19,14): error C2061:  语法错误: 标识符“TaskQueueArry”
+F:\study\gl_world\gl_world\l_world\kernel\task.c(19,14): error C2059:  语法错误:“;”
+F:\study\gl_world\gl_world\l_world\kernel\task.c(19,27): error C2059:  语法错误:“[”
+F:\study\gl_world\gl_world\l_world\kernel\task.c(22,8): error C2143:  语法错误: 缺少“{”(在“*”的前面)
+F:\study\gl_world\gl_world\l_world\kernel\task.c(24,15): error C2065:  “sz_t”: 未声明的标识符
+F:\study\gl_world\gl_world\l_world\kernel\task.c(24,15): error C2146:  语法错误: 缺少“;”(在标识符“idx”的前面)
+F:\study\gl_world\gl_world\l_world\kernel\task.c(24,19): error C2065:  “idx”: 未声明的标识符
+F:\study\gl_world\gl_world\l_world\kernel\task.c(24,28): error C2065:  “idx”: 未声明的标识符
+F:\study\gl_world\gl_world\l_world\kernel\task.c(24,30): error C2065:  “TaskQueueArry”: 未声明的标识符
+F:\study\gl_world\gl_world\l_world\kernel\task.c(24,30): error C2109:  下标要求数组或指针类型
+F:\study\gl_world\gl_world\l_world\kernel\task.c(24,54): error C2143:  语法错误: 缺少“)”(在“;”的前面)
+F:\study\gl_world\gl_world\l_world\kernel\task.c(24,59): error C2065:  “idx”: 未声明的标识符
+F:\study\gl_world\gl_world\l_world\kernel\task.c(24,61): error C2059:  语法错误:“)”
+F:\study\gl_world\gl_world\l_world\kernel\task.c(24,63): error C2143:  语法错误: 缺少“;”(在“{”的前面)
+F:\study\gl_world\gl_world\l_world\kernel\task.c(25,27): warning C4013:  “Queue_IsEmpty”未定义；假设外部返回 int
+F:\study\gl_world\gl_world\l_world\kernel\task.c(25,42): error C2065:  “TaskQueueArry”: 未声明的标识符
+F:\study\gl_world\gl_world\l_world\kernel\task.c(25,46): error C2065:  “idx”: 未声明的标识符
+F:\study\gl_world\gl_world\l_world\kernel\task.c(25,46): error C2109:  下标要求数组或指针类型
+F:\study\gl_world\gl_world\l_world\kernel\task.c(26,27): error C2065:  “Task_t”: 未声明的标识符
+F:\study\gl_world\gl_world\l_world\kernel\task.c(26,28): error C2059:  语法错误:“)”
+F:\study\gl_world\gl_world\l_world\kernel\task.c(29,16): error C2065:  “NULL”: 未声明的标识符
+  list.c
+F:\study\gl_world\gl_world\l_world\kernel\task.c(29,16): warning C4047:  “return”:“int *”与“int”的间接级别不同
+F:\study\gl_world\gl_world\l_world\lib\list.c(35,1): warning C4028:  形参 1 与声明不同
+F:\study\gl_world\gl_world\l_world\lib\list.c(103,1): warning C4029:  声明的形参表不同于定义
+  queue.c
+F:\study\gl_world\gl_world\l_world\lib\list.c(109,1): warning C4029:  声明的形参表不同于定义
+F:\study\gl_world\gl_world\l_world\lib\queue.c(13,7): error C2061:  语法错误: 标识符“Queue_Init”
+F:\study\gl_world\gl_world\l_world\lib\queue.c(13,7): error C2059:  语法错误:“;”
+F:\study\gl_world\gl_world\l_world\lib\queue.c(13,22): error C2059:  语法错误:“<parameter-list>”
+F:\study\gl_world\gl_world\l_world\lib\queue.c(18,7): error C2061:  语法错误: 标识符“Queue_ChgHead”
+F:\study\gl_world\gl_world\l_world\lib\queue.c(18,7): error C2059:  语法错误:“;”
+F:\study\gl_world\gl_world\l_world\lib\queue.c(18,29): error C2143:  语法错误: 缺少“)”(在“*”的前面)
+F:\study\gl_world\gl_world\l_world\lib\queue.c(18,29): error C2143:  语法错误: 缺少“{”(在“*”的前面)
+F:\study\gl_world\gl_world\l_world\lib\queue.c(18,47): error C2059:  语法错误:“类型”
+F:\study\gl_world\gl_world\l_world\lib\queue.c(18,50): error C2059:  语法错误:“)”
+F:\study\gl_world\gl_world\l_world\lib\queue.c(28,7): error C2061:  语法错误: 标识符“Queue_AddTail”
+F:\study\gl_world\gl_world\l_world\lib\queue.c(28,7): error C2059:  语法错误:“;”
+F:\study\gl_world\gl_world\l_world\lib\queue.c(28,29): error C2143:  语法错误: 缺少“)”(在“*”的前面)
+F:\study\gl_world\gl_world\l_world\lib\queue.c(28,29): error C2143:  语法错误: 缺少“{”(在“*”的前面)
+F:\study\gl_world\gl_world\l_world\lib\queue.c(28,47): error C2059:  语法错误:“类型”
+F:\study\gl_world\gl_world\l_world\lib\queue.c(28,50): error C2059:  语法错误:“)”
+F:\study\gl_world\gl_world\l_world\lib\queue.c(38,7): error C2061:  语法错误: 标识符“Queue_Insert”
+F:\study\gl_world\gl_world\l_world\lib\queue.c(38,7): error C2059:  语法错误:“;”
+F:\study\gl_world\gl_world\l_world\lib\queue.c(38,25): error C2059:  语法错误:“<parameter-list>”
+F:\study\gl_world\gl_world\l_world\lib\queue.c(48,7): error C2061:  语法错误: 标识符“Queue_Search”
+F:\study\gl_world\gl_world\l_world\lib\queue.c(48,7): error C2059:  语法错误:“;”
+F:\study\gl_world\gl_world\l_world\lib\queue.c(48,28): error C2143:  语法错误: 缺少“)”(在“const”的前面)
+F:\study\gl_world\gl_world\l_world\lib\queue.c(48,28): error C2143:  语法错误: 缺少“{”(在“const”的前面)
+F:\study\gl_world\gl_world\l_world\lib\queue.c(48,42): error C2373:  “_pq”: 重定义；不同的类型修饰符
+F:\study\gl_world\gl_world\l_world\lib\queue.c(28): message :  参见“_pq”的声明
+F:\study\gl_world\gl_world\l_world\lib\queue.c(48,58): error C2059:  语法错误:“类型”
+F:\study\gl_world\gl_world\l_world\lib\queue.c(48,72): error C2059:  语法错误:“)”
+F:\study\gl_world\gl_world\l_world\lib\queue.c(65,7): error C2061:  语法错误: 标识符“Queue_Delete”
+F:\study\gl_world\gl_world\l_world\lib\queue.c(65,7): error C2059:  语法错误:“;”
+F:\study\gl_world\gl_world\l_world\lib\queue.c(65,28): error C2143:  语法错误: 缺少“)”(在“*”的前面)
+F:\study\gl_world\gl_world\l_world\lib\queue.c(65,28): error C2143:  语法错误: 缺少“{”(在“*”的前面)
+F:\study\gl_world\gl_world\l_world\lib\queue.c(65,52): error C2059:  语法错误:“类型”
+F:\study\gl_world\gl_world\l_world\lib\queue.c(65,65): error C2059:  语法错误:“)”
+F:\study\gl_world\gl_world\l_world\lib\queue.c(89,7): error C2061:  语法错误: 标识符“Queue_DelNode”
+F:\study\gl_world\gl_world\l_world\lib\queue.c(89,7): error C2059:  语法错误:“;”
+F:\study\gl_world\gl_world\l_world\lib\queue.c(89,26): error C2059:  语法错误:“<parameter-list>”
+F:\study\gl_world\gl_world\l_world\lib\queue.c(101,30): error C2143:  语法错误: 缺少“)”(在“const”的前面)
+F:\study\gl_world\gl_world\l_world\lib\queue.c(101,30): error C2143:  语法错误: 缺少“{”(在“const”的前面)
+F:\study\gl_world\gl_world\l_world\lib\queue.c(101,47): error C2059:  语法错误:“)”
+F:\study\gl_world\gl_world\l_world\lib\queue.c(101,44): error C2373:  “_pq”: 重定义；不同的类型修饰符
+F:\study\gl_world\gl_world\l_world\lib\queue.c(65): message :  参见“_pq”的声明
+F:\study\gl_world\gl_world\l_world\lib\queue.c(102,1): error C2054:  在“_pq”之后应输入“(”
+F:\study\gl_world\gl_world\l_world\lib\queue.c(107,30): error C2143:  语法错误: 缺少“)”(在“const”的前面)
+F:\study\gl_world\gl_world\l_world\lib\queue.c(107,30): error C2143:  语法错误: 缺少“{”(在“const”的前面)
+F:\study\gl_world\gl_world\l_world\lib\queue.c(107,47): error C2059:  语法错误:“)”
+F:\study\gl_world\gl_world\l_world\lib\queue.c(107,44): error C2373:  “_pq”: 重定义；不同的类型修饰符
+F:\study\gl_world\gl_world\l_world\lib\queue.c(65): message :  参见“_pq”的声明
+F:\study\gl_world\gl_world\l_world\lib\queue.c(108,1): error C2054:  在“_pq”之后应输入“(”
+F:\study\gl_world\gl_world\l_world\lib\queue.c(113,29): error C2143:  语法错误: 缺少“)”(在“const”的前面)
+F:\study\gl_world\gl_world\l_world\lib\queue.c(113,29): error C2143:  语法错误: 缺少“{”(在“const”的前面)
+F:\study\gl_world\gl_world\l_world\lib\queue.c(113,46): error C2059:  语法错误:“)”
+F:\study\gl_world\gl_world\l_world\lib\queue.c(113,43): error C2373:  “_pq”: 重定义；不同的类型修饰符
+F:\study\gl_world\gl_world\l_world\lib\queue.c(65): message :  参见“_pq”的声明
+F:\study\gl_world\gl_world\l_world\lib\queue.c(114,1): error C2054:  在“_pq”之后应输入“(”
+F:\study\gl_world\gl_world\l_world\lib\queue.c(120,6): error C2061:  语法错误: 标识符“Queue_IsEmpty”
+F:\study\gl_world\gl_world\l_world\lib\queue.c(120,6): error C2059:  语法错误:“;”
+F:\study\gl_world\gl_world\l_world\lib\queue.c(120,28): error C2143:  语法错误: 缺少“)”(在“const”的前面)
+F:\study\gl_world\gl_world\l_world\lib\queue.c(120,28): error C2143:  语法错误: 缺少“{”(在“const”的前面)
+F:\study\gl_world\gl_world\l_world\lib\queue.c(120,45): error C2059:  语法错误:“)”
+F:\study\gl_world\gl_world\l_world\lib\queue.c(120,42): error C2373:  “_pq”: 重定义；不同的类型修饰符
+F:\study\gl_world\gl_world\l_world\lib\queue.c(65): message :  参见“_pq”的声明
+  heap.c
+  stack.c
+  正在生成代码...
+F:\study\gl_world\gl_world\l_world\lib\queue.c(121,1): error C2054:  在“_pq”之后应输入“(”
