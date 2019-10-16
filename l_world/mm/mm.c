@@ -36,16 +36,16 @@ static inline err_t mm_checkMemAddrValid(mm_t const * const _pmm,
 
 static inline ux_t mm_getBlkSz(mblk_t const * const _pblk)
 {
-  return _pblk->sz;
+    return _pblk->sz;
 }
 
 static inline ux_t mm_getMemSz(void const* const _pmem)
 {
-  return MEM2BLK(_pmem)->sz;
+    return MEM2BLK(_pmem)->sz;
 }
 
 static inline err_t mm_freeBlkListAdd(mm_t * const _pmm,
-  mblk_t const * const _pblk)
+    mblk_t const * const _pblk)
 {
     return Queue_Delete((void*)_pmm->frlst, _pblk);
 }
@@ -67,33 +67,32 @@ void* mm_malloc(mm_t *_pmm, ux_t _sz)
     }
     mblk_t* tmp = _pmm->frlst;
     while (tmp) {
-    if (tmp >= _sz) {
-      goto MALLOC_SUCCEED;
-    } else {
-      tmp = tmp->nxt;
+        if (tmp >= _sz) {
+            goto MALLOC_SUCCEED;
+        } else {
+            tmp = tmp->nxt;
+        }
     }
-  }
 MALLOC_SUCCEED:
-  // If free memory block will be used completely.
-  // Just remove this current free node.
-  // Otherwise change it point to the new free node,
-  // and set the new free node's free space size.
-  if (BLK_USZ(_sz) >= getBlkSz(tmp)) {
-    // If system got here, that means that this current tmp node will used
-    // completely. So just delete/remove this "tmp" node here right now.
+    // If free memory block will be used completely.
+    // Just remove this current free node.
+    // Otherwise change it point to the new free node,
+    // and set the new free node's free space size.
+    if (BLK_USZ(_sz) >= getBlkSz(tmp)) {
+        // If system got here, that means that this current tmp node will used
+        // completely. So just delete/remove this "tmp" node here right now.
 
-    // If the "tmp" node is the first free node
-    // REMOVE THE HEADER OF FREE LIST HEAD HERE.
+        // If the "tmp" node is the first free node
+        // REMOVE THE HEADER OF FREE LIST HEAD HERE.
 
-    // If it's not the first free list node
-    // done such as the following/below code.
-  }
-  else {
+        // If it's not the first free list node
+        // done such as the following/below code.
+    } else {
 
-  }
-  return BLK2MEM(tmp);
+    }
+    return BLK2MEM(tmp);
 MALLOC_FAILD:
-  return NULL; //
+    return NULL; //
 }
 
 //
