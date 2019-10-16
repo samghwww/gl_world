@@ -22,6 +22,8 @@ extern "C" {
 
 #define ARRY_SIZE(arr)      ( sizeof(arr)/sizeof(arr[0]) )
 
+#define BIT(n)              ( 1U<<(n) )
+
 
 
 #ifdef __cplusplus
