@@ -15,58 +15,63 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\kernel\event.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\mm\heap.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\lib\list.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\mm\mm.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\lib\queue.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\mm\stack.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\kernel\task.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+    <Text Include="..\..\..\README.TXT">
+      <Filter>Source Files</Filter>
+    </Text>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\mm\heap.c">
+    <ClCompile Include="..\..\..\kernel\event.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\mm\mm.c">
+    <ClCompile Include="..\..\..\kernel\kmain.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\mm\stack.c">
+    <ClCompile Include="..\..\..\kernel\task.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\lib\list.c">
+    <ClCompile Include="..\..\..\kernel\sched\sched.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\lib\queue.c">
+    <ClCompile Include="..\..\..\lib\list.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\kernel\event.c">
+    <ClCompile Include="..\..\..\lib\queue.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\kernel\task.c">
+    <ClCompile Include="..\..\..\mm\heap.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\kernel\kmain.c">
+    <ClCompile Include="..\..\..\mm\mm.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\kernel\sched\sched.c">
+    <ClCompile Include="..\..\..\mm\stack.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="test.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\kernel\event.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\kernel\task.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\kernel\sched\sched.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\mm\heap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\mm\mm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\lib\list.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\lib\queue.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\mm\stack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

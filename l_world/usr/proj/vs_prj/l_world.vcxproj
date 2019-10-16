@@ -19,25 +19,28 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\kernel\event.h" />
-    <ClInclude Include="..\..\kernel\task.h" />
-    <ClInclude Include="..\..\lib\list.h" />
-    <ClInclude Include="..\..\lib\queue.h" />
-    <ClInclude Include="..\..\mm\heap.h" />
-    <ClInclude Include="..\..\mm\mm.h" />
-    <ClInclude Include="..\..\mm\stack.h" />
+    <Text Include="..\..\..\README.TXT" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\kernel\event.c" />
-    <ClCompile Include="..\..\kernel\kmain.c" />
-    <ClCompile Include="..\..\kernel\sched\sched.c" />
-    <ClCompile Include="..\..\kernel\task.c" />
-    <ClCompile Include="..\..\lib\list.c" />
-    <ClCompile Include="..\..\lib\queue.c" />
-    <ClCompile Include="..\..\mm\heap.c" />
-    <ClCompile Include="..\..\mm\mm.c" />
-    <ClCompile Include="..\..\mm\stack.c" />
-    <ClCompile Include="test.c" />
+    <ClCompile Include="..\..\..\kernel\event.c" />
+    <ClCompile Include="..\..\..\kernel\kmain.c" />
+    <ClCompile Include="..\..\..\kernel\sched\sched.c" />
+    <ClCompile Include="..\..\..\kernel\task.c" />
+    <ClCompile Include="..\..\..\lib\list.c" />
+    <ClCompile Include="..\..\..\lib\queue.c" />
+    <ClCompile Include="..\..\..\mm\heap.c" />
+    <ClCompile Include="..\..\..\mm\mm.c" />
+    <ClCompile Include="..\..\..\mm\stack.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\kernel\event.h" />
+    <ClInclude Include="..\..\..\kernel\sched\sched.h" />
+    <ClInclude Include="..\..\..\kernel\task.h" />
+    <ClInclude Include="..\..\..\lib\list.h" />
+    <ClInclude Include="..\..\..\lib\queue.h" />
+    <ClInclude Include="..\..\..\mm\heap.h" />
+    <ClInclude Include="..\..\..\mm\mm.h" />
+    <ClInclude Include="..\..\..\mm\stack.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

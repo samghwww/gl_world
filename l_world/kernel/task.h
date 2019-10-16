@@ -12,6 +12,8 @@ History:
 #ifndef TASK_H_
 #define TASK_H_
 
+#include "../inc/err.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -22,16 +24,23 @@ extern "C" {
 typedef void (*TaskFnc_t)(void *parg);
 // Task priority data type.
 typedef enum {
-    TASK_PRIO_HIGHEST,
-    TASK_PRIO_LEVEL_0 = TASK_PRIO_HIGHEST,
-    TASK_PRIO_LEVEL_1,
-    TASK_PRIO_LEVEL_2,
-    TASK_PRIO_LEVEL_3,
-    TASK_PRIO_LEVEL_4,
-    TASK_PRIO_LOWEST  = TASK_PRIO_LEVEL_4,
-    TASK_PRIO_INVALID,
-    TASK_PRIO_NUMBER = TASK_PRIO_INVALID,
-    TASK_PRIO_AMOUNT = TASK_PRIO_NUMBER,
+	TASK_PRIO_LEVEL_BASE,
+	TASK_PRIO_LEVEL_0	= TASK_PRIO_LEVEL_BASE,
+	TASK_PRIO_LEVEL_1,
+	TASK_PRIO_LEVEL_2,
+	TASK_PRIO_LEVEL_3,
+	TASK_PRIO_LEVEL_4,
+	TASK_PRIO_LEVEL_5,
+	TASK_PRIO_INVALID,
+
+	TASK_PRIO_LEVEL_MIN = TASK_PRIO_LEVEL_BASE,
+	TASK_PRIO_LEVEL_MAX = TASK_PRIO_INVALID - 1,
+
+    TASK_PRIO_LOWEST	= TASK_PRIO_LEVEL_MAX,
+	TASK_PRIO_HIGHEST	= TASK_PRIO_LEVEL_MIN,
+	
+    TASK_PRIO_NUMBER	= TASK_PRIO_INVALID,
+    TASK_PRIO_AMOUNT	= TASK_PRIO_NUMBER,
 } TaskPrio_t;
 // Task state/status type define.
 typedef enum {
@@ -68,6 +77,7 @@ static inline TaskSta_t Task_GetSta(Task_t const * const _ptsk)
 {
     return _ptsk->sta;
 }
+
 
 Task_t* Task_GetHighester(void);
 err_t Task_Add(Task_t* const _ptskPut);
