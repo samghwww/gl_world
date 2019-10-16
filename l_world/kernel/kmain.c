@@ -1,6 +1,9 @@
 
 
+#include "task.h"
 #include "sched/sched.h"
+
+#include "../mm/mm.h"
 #include "../inc/debug.h"
 #include "../inc/err.h"
 
@@ -36,23 +39,60 @@ static inline void pause(void) {
 
 #endif
 
-//#define _print(...) printf(__VA_ARGS__)
+void task0_func(void* _parg)
+{
+	dbg_msgl("The first task reached.");
+}
 
-err_t test_main(void);
+void task1_func(void* _parg)
+{
+	dbg_msgl("The second task reached.");
+}
+
+void task2_func(void* _parg)
+{
+	dbg_msgl("The third task reached.");
+}
+
+Task_t task0 = {
+	.pnxt = NULL,
+	.pfnc = task0_func,
+	.parg = NULL,
+	.sta  = TASK_STA_READY,
+	.prio = TASK_PRIO_LOWEST,
+};
+
+Task_t task1 = {
+	.pnxt = NULL,
+	.pfnc = task1_func,
+	.parg = NULL,
+	.sta = TASK_STA_READY,
+	.prio = TASK_PRIO_LOWEST,
+};
+
+Task_t task2 = {
+	.pnxt = NULL,
+	.pfnc = task2_func,
+	.parg = NULL,
+	.sta = TASK_STA_READY,
+	.prio = TASK_PRIO_LOWEST,
+};
+
 
 int main(int argc, char const** const args)
 {
-    dbg_msgl("Welcome to L KERNEL WORLD!");
+    dbg_msgl("Welcome to L System Kernel WORLD!");
 
-	test_main();
+	Task_Add(&task0);
+	Task_Add(&task1);
+	Task_Add(&task2);
     
 	while (true) {
-		// Wakeup handle here.
+		// Wakeup form sleep(deep/light) handle here.
 		
-
 		Scheduler();
-		// Goto sleep/halt/stop here.
-
+		// Goto sleep/halt/stop here, and when system core wakeup,
+		// code will execute from here.
 	}
-    return 0;
+	// System should never reach here.
 }

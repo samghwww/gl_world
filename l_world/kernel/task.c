@@ -44,10 +44,16 @@ Task_t *Task_GetHighester(void)
 
 err_t Task_Add(Task_t* const _ptskPut)
 {
+	if (NULL == _ptskPut) {
+		return ERR_NULL;
+	}
 	return Queue_Add(task_getPriorityNHeader(_ptskPut->prio), _ptskPut);
 }
 
 err_t Task_Del(Task_t const * const _ptskDel)
 {
+	if (NULL == _ptskDel) {
+		return ERR_NULL;
+	}
 	return Queue_Delete(task_getPriorityNHeader(_ptskDel->prio), _ptskDel);
 }
