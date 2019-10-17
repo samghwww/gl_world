@@ -13,6 +13,7 @@ History:
 #define DEBUG_H_
 
 #include <stdio.h>
+#include <conio.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -30,7 +31,20 @@ extern "C" {
 #define DBG_CUST_INIT(...)
 #define DBG_CUST_PRINT(...)         printf(__VA_ARGS__)
 
+
+
+#define DBG_BREAKPOINT(...)                         \
+    do {                                            \
+        DBG_CUST_PRINT("@@@__break_point__:\n");    \
+        DBG_CUST_PRINT("FILE: %s\n", __FILE__);     \
+        DBG_CUST_PRINT("FUNC: %s\n", __func__);     \
+        DBG_CUST_PRINT("LINE: %d\n", __LINE__);     \
+        _getch();                                   \
+    } while (0)
+
 #if (DEBUG_ENABLED)
+    #define DBG_CODE(...)           __VA_ARGS__
+
     // Debug initializatiion function.
     #define dbg_init(...)           DBG_CUST_INIT(__VA_ARGS__)
     
@@ -54,6 +68,18 @@ extern "C" {
             dbg_hex((h), (l));          \
             dbg_print("\n");            \
         } while (0)
+
+    #define dbg_assert(con)             \
+        do {                            \
+            if (false == (con)) {       \
+                DBG_BREAKPOINT();       \
+            }                           \
+        } while (0)
+
+    // Assert the pointer "p" is not NULL
+    #define dbg_assert_ptr(p)           dbg_assert(NULL != (p))
+    // Assert the number "n" is not zero
+    #define dbg_assert_nzr(n)           dbg_assert(0 != (n))
 
     #define dbg_msg(...)            dbg_print(__VA_ARGS__)
     #define dbg_msg(...)            dbg_print(__VA_ARGS__)
@@ -90,14 +116,49 @@ extern "C" {
     #define log_okl(...)            dbg_printl(__VA_ARGS__)
     #define log_ngl(...)            dbg_printl(__VA_ARGS__)
 #else //DEBUG_ENABLED
+    #define DBG_CODE(...)
+
+    // Debug initializatiion function.
+    #define dbg_init(...)
+
     #define dbg_print(...)
     #define dbg_printl(...)
+    #define dbg_hex(...)
+    #define dbg_hexl(...)
     #define dbg_msg(...)
-    #define dbg_msgl(...)
+    #define dbg_msg(...)
     #define dbg_info(...)
-    #define dbg_infol(...)
+    #define dbg_err(...)
+    #define dbg_warn(...)
     #define dbg_ok(...)
     #define dbg_ng(...)
+
+    #define dbg_msgl(...)
+    #define dbg_msgl(...)
+    #define dbg_infol(...)
+    #define dbg_errl(...)
+    #define dbg_warnl(...)
+    #define dbg_okl(...)
+    #define dbg_ngl(...)
+
+    // Log initialization function
+    #define log_init(...)
+    #define log_hex(h, l)
+    #define log_hexl(h, l)
+
+    #define log_msg(...)
+    #define log_info(...)
+    #define log_err(...)
+    #define log_warn(...)
+    #define log_ok(...)
+    #define log_ng(...)
+
+    #define log_msgl(...)
+    #define log_infol(...)
+    #define log_errl(...)
+    #define log_warnl(...)
+    #define log_okl(...)
+    #define log_ngl(...)
 #endif //#else DEBUG_ENABLED
 #ifdef __cplusplus
 }

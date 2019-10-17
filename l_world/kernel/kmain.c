@@ -75,7 +75,7 @@ Task_t task2 = {
 	.pfnc = task2_func,
 	.parg = NULL,
 	.sta = TASK_STA_READY,
-	.prio = TASK_PRIO_LOWEST,
+	.prio = TASK_PRIO_HIGHEST,
 };
 
 
@@ -83,10 +83,13 @@ int main(int argc, char const** const args)
 {
     dbg_msgl("Welcome to L System Kernel WORLD!");
 
+    // Initialization function here.
+    MM_INIT_DEF();
+
 	Task_Add(&task0);
 	Task_Add(&task1);
 	Task_Add(&task2);
-    
+
 	while (true) {
 		// Wakeup form sleep(deep/light) handle here.
 		

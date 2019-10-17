@@ -13,6 +13,9 @@ History:
 #include "mm.h"
 
 #include "../lib/queue.h"
+#include "../lib/list.h"
+
+#include <string.h>
 
 // Memory block neighbor,
 // The left or right or both block connected/linked with the current block.
@@ -28,15 +31,26 @@ typedef enum {
     MBLK_NEIGHBOR_TYPE_INVALID,
 } mblk_neighbor_type_t;
 
+
+
 // If allocte a new memory block,
-// use this macro to calcaulate how much memory space will be used.
-#define BLK_USZ(sz) ( (sz)+sizeof(mblk_t) )
+// use this macro to calcaulate how much memory space memory block occupied.
+#define BLK_MSZ(bsz) ( (bsz) + sizeof(void*) )
 
 // memory block pointer convert to memory base address
-#define BLK2MEM(pb) ( (void*)(&((pb)->nxt)) )
+#define BLK2MEM(pb) ( (void*) (((char*)pb) + sizeof(void*)) )
 
 // Memory address convert to memory pointer
-#define MEM2BLK(pm) ( (mblk_t*)(((char*)pm)-sizeof(void*)) )
+#define MEM2BLK(pm) ( (mblk_t*) (((char*)pm) - sizeof(void*)) )
+
+#define IS_ALLOC_ALL_FREE_BLOCK(pfrblk, allocSz)    \
+    (allocSz == (pfrblk)->sz ||                     \
+     (allocSz+sizeof(*pfrblk)+sizeof(void*)) >= (pfrblk)->sz)
+
+
+void * const MemoryPool[MM_POOL_SIZE_DEF/sizeof(void*)];
+DList_t MemoryFreeBlockList;
+mm_t MCB[MM_POOL_NUNBER_DEF];   // Memory control block arry.
 
 static inline err_t mm_checkMemAddrValid(mm_t const * const _pmm,
   void const * const _pmemAddr)
@@ -61,7 +75,7 @@ static inline ux_t mm_getMemSz(void const* const _pmem)
 static inline err_t mm_freeBlkListAdd(mm_t * const _pmm,
     mblk_t const * const _pblk)
 {
-    return Queue_Delete((void*)_pmm->frlst, _pblk);
+    return Queue_Delete((void*)_pmm->pfrlst, _pblk);
 }
 
 static inline mblk_t *mm_getBlkPrevNeighor(mblk_t const * const _pblk)
@@ -76,7 +90,7 @@ static inline mblk_t *mm_getBlkNextNeighor(mblk_t const * const _pblk)
 
 static inline void *mm_getBlkPrevBoundary(mblk_t const * const _pblk)
 {
-    return (void*)(((char*)_pblk) + sizeof(vodi*));
+    return (void*)(((char*)_pblk) + sizeof(void*));
 }
 
 static inline void *mm_getBlkNextBoundary(mblk_t const * const _pblk)
@@ -121,10 +135,10 @@ static mblk_t *mm_findBlkNextFreeNeighbor(mblk_t const * const _pblkBase,
 static void mm_findBlkFreeNeighbor(mm_t const * const _pmm,
     mblk_t const * const _pblkFind, mblk_neighbor_t * const _pneighbor)
 {
-    mblk_t const * psrchBlk = _pmm->frlst;
+    mblk_t const * psrch = _pmm->pfrlst;
     _pneighbor->pprv = NULL;
     _pneighbor->pnxt = NULL;
-    while (psrchBlk) {
+    while (psrch) {
         if (mm_2blkIsNeighbor(psrch, _pblkFind)) {
             _pneighbor->pprv = psrch;
             _pneighbor->pnxt = mm_findBlkNextFreeNeighbor(psrch->pnxt, _pblkFind);
@@ -140,27 +154,56 @@ static void mm_findBlkFreeNeighbor(mm_t const * const _pmm,
     }
 }
 
+static err_t mm_addFreeBlk(void const* const _pfrlst,
+    mblk_t * const _pblkFree)
+{
+    return SingleList_UnRingAdd(_pfrlst, _pblkFree);
+}
+
+static err_t mm_removeFreeBlk(void const * const _pfrlst,
+    mblk_t const * const _pblkFree)
+{
+    return SingleList_UnRingDelete(_pfrlst, &_pblkFree->pprv);
+}
+
+static inline mblk_t * mm_mergeNeighborBlk(mblk_t * const _pblkPrv,
+    mblk_t const * const _pblkNxt)
+{
+    _pblkPrv->sz += _pblkNxt->sz + sizeof(void*);
+    return _pblkPrv;
+}
+
 // Memory pool initializatio function.
 // _pmm: The pointer of the memory pool or memory base address.
 // _mmSz: The size of memory pool.
-err_t mm_init(void const * const _pmm, ux_t _mmSz)
+err_t mm_init(void * const _pmm, ux_t _mmSz)
 {
+    MCB[0].pbase  = _pmm;
+    MCB[0].pfrlst = &MemoryFreeBlockList;
+    MCB[0].sz     = _mmSz;
 
+    
+
+    mblk_t *pfrblk = (mblk_t*)_pmm;
+    memset(pfrblk, 0x00, sizeof(*pfrblk));
+    pfrblk->sz = _mmSz - (sizeof(void*) * 2); // Subtract pprv and pnxt
+    MCB[0].pfrlst->pdhead = pfrblk;
+    MCB[0] .pfrlst->pdtail = pfrblk;
 }
 
 // Allocate a new memory block for user.
 // _sz: The size of memory user want.
-void* mm_malloc(mm_t *_pmm, ux_t _sz)
+void* mm_malloc(mm_t *_pmm, ux_t _allocSz)
 {
-    if (NULL == _pmm || NULL == _pmm->frlst || 0x00 == _sz) {
+    if (NULL == _pmm || NULL == _pmm->pfrlst || 0x00 == _allocSz) {
         goto MALLOC_FAILD;
     }
-    mblk_t* tmp = _pmm->frlst;
-    while (tmp) {
-        if (tmp >= _sz) {
+    mblk_t *psrch = _pmm->pfrlst;
+    while (psrch) {
+        if (psrch->sz >= _allocSz) {
             goto MALLOC_SUCCEED;
         } else {
-            tmp = tmp->nxt;
+            psrch = psrch->pnxt;
         }
     }
 MALLOC_FAILD:
@@ -170,26 +213,21 @@ MALLOC_SUCCEED:
     // Just remove this current free node.
     // Otherwise change it point to the new free node,
     // and set the new free node's free space size.
-    if (BLK_USZ(_sz) >= mm_getBlkSz(tmp)) {
-        // If system got here, that means that this current tmp node will used
-        // completely. So just delete/remove this "tmp" node here right now.
-
-        // If the "tmp" node is the first free node
-        // REMOVE THE HEADER OF FREE LIST HEAD HERE.
-
-        // If it's not the first free list node
-        // done such as the following/below code.
+    mm_removeFreeBlk(_pmm->pfrlst, psrch);
+    if (IS_ALLOC_ALL_FREE_BLOCK(psrch, _allocSz)) {
+        // mm_removeFreeBlk(_pmm->pfrlst, psrch);
     } else {
-
+        //mblk_t *pnewFreeBlk = (mblk_t*)(((char*)BLK2MEM(psrch)) + _allocSz);
+        mm_addFreeBlk(_pmm->pfrlst, (mblk_t*)(((char*)BLK2MEM(psrch)) + _allocSz));
     }
-    return BLK2MEM(tmp);
+    return BLK2MEM(psrch);
 }
 
 // Realloc memory for the memory block allocated.
 // _pmm: memory pool base address or the pointer point to memory pool.
 // _p: the address/pointer of memory block allocated.
 // _sz: the size of memory user want to reallocate now.
-void* mm_realloc(mm_t* _pmm, void *const _pem, ux_t _sz)
+void* mm_realloc(mm_t* _pmm, void * const _pem, ux_t _sz)
 {
 
 }
@@ -201,14 +239,23 @@ void mm_free(mm_t const * const _pmm, void const * const _pmem)
     mblk_t *pfrBlk = MEM2BLK(_pmem);
     mblk_neighbor_t frBlkNeighbor = {NULL, NULL};
     mm_findBlkFreeNeighbor(_pmm, pfrBlk, &frBlkNeighbor);
-
-    if (frBlkNeighbor.pprv) {
-        frBlkNeighbor.pprv->sz; += pfrBlk->sz - sizeof(void*);
-        pfrBlk->pnxt = frBlkNeighbor.pprv->pnxt;
-        frBlkNeighbor.pprv->pnxt = pfrBlk->pnxt;
+    if (frBlkNeighbor.pprv && frBlkNeighbor.pnxt) {
+        mm_removeFreeBlk(_pmm->pfrlst, frBlkNeighbor.pprv);
+        mm_removeFreeBlk(_pmm->pfrlst, frBlkNeighbor.pnxt);
+        mm_mergeNeighborBlk(frBlkNeighbor.pprv, pfrBlk);
+        mm_mergeNeighborBlk(frBlkNeighbor.pprv, frBlkNeighbor.pnxt);
+        mm_addFreeBlk(_pmm->pfrlst, frBlkNeighbor.pprv);
     }
-    if (frBlkNeighbor.pnxt) {
-        pfrBlk->sz += frBlkNeighbor.pprv->sz - sizeof(void*);
+    else if (frBlkNeighbor.pprv) {
+        mm_removeFreeBlk(_pmm->pfrlst, frBlkNeighbor.pprv);
+        mm_mergeNeighborBlk(frBlkNeighbor.pprv, pfrBlk);
+        mm_addFreeBlk(_pmm->pfrlst, frBlkNeighbor.pprv);
     }
-
+    else if (frBlkNeighbor.pnxt) {
+        mm_removeFreeBlk(_pmm->pfrlst, frBlkNeighbor.pnxt);
+        mm_mergeNeighborBlk(pfrBlk, frBlkNeighbor.pnxt);
+        mm_addFreeBlk(_pmm->pfrlst, pfrBlk);
+    } else {
+        mm_addFreeBlk(_pmm->pfrlst, pfrBlk);
+    }
 }

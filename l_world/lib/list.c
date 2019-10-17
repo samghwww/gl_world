@@ -36,11 +36,9 @@ err_t SList_Delete(SNode_t ** const _pbase, SNode_t * const _pdel, ListType_t _l
     if (!CHK_NODE_VALID(_pbase) || !CHK_NODE_VALID(_pdel)) {
         return ERR_NULL;
     }
-
     SNode_t * curr = *_pbase;
     // Handle the first node
     if (*_pbase == _pdel) {
-
         if (LIST_TYPE_CIRCLE == _lt) {
             while (curr->pnxt != *_pbase) {
                 curr = curr->pnxt;
@@ -83,8 +81,36 @@ err_t SList_Search(SNode_t * const _pbase, SNode_t * const _psch, ListType_t _lt
 }
 
 
+extern err_t DualList_UnRingReplace(DList_t * const _pdlst,
+    DNode_t const * const _preplaced, DNode_t* const _preplacer)
+{
+    if (DList_IsEmpty(_pdlst)    ||
+        NULL == _preplaced          ||
+        NULL == _preplacer) {
+        return ERR_NULL;
+    }
+    if (_preplaced == _pdlst->pdhead) {
+        _preplacer->pprv = NULL;
+        _preplacer->pnxt = _preplaced->pnxt;
+        _preplaced->pnxt->pprv = _preplacer;
+        _pdlst->pdhead   = _preplacer;
+    }
+    else if (_preplaced == _pdlst->pdtail) {
+        _preplacer->pprv = _preplaced->pprv;
+        _preplacer->pnxt = NULL;
+        _preplaced->pprv->pnxt = _preplacer;
+        _pdlst->pdtail   = _preplacer;
+    }
+    else {
+        _preplacer->pprv = _preplaced->pprv;
+        _preplacer->pnxt = _preplaced->pnxt;
+        _preplacer->pprv->pnxt = _preplacer;
+        _preplacer->pnxt->pprv = _preplacer;
+    }
+}
+
 // Double link node list implementation below/following
-err_t DList_Insert(DNode_t * const _pbase, DNode_t * const _pin)
+err_t DList_UnRingInsert(DNode_t * const _pbase, DNode_t * const _pin)
 {
     if (!CHK_NODE_VALID(_pbase) || !CHK_NODE_VALID(_pin)) {
         return ERR_NULL;
@@ -99,14 +125,47 @@ err_t DList_Insert(DNode_t * const _pbase, DNode_t * const _pin)
 
     return ERR_SUCCESS;
 }
-err_t DList_Delete(DNode_t * const _pbase, DNode_t * const _pdel)
+err_t DList_UnRingDelete(DList_t* const _pdlst, DNode_t * const _pdel)
 {
-
+    if (DList_IsEmpty(_pdlst) || NULL == _pdel) {
+        return ERR_NULL;
+    }
+    if (_pdel == _pdlst->pdhead) {
+        _pdlst->pdhead = _pdlst->pdhead->pnxt;
+        _pdlst->pdhead->pprv = NULL;
+    }
+    else if (_pdel == _pdlst->pdtail) {
+        _pdlst->pdtail->pprv->pnxt = NULL;
+        _pdlst->pdtail = _pdlst->pdtail->pprv;
+    }
+    else {
+        _pdel->pprv->pnxt = _pdel->pnxt;
+        _pdel->pnxt->pprv = _pdel->pprv;
+    }
     return ERR_SUCCESS;
 }
 
-err_t DList_Search(DNode_t * const _pbase, DNode_t * const _psch)
+err_t DList_UnRingSearch(DList_t* const _pdlst, DNode_t * const _psrch)
 {
+    if (DList_IsEmpty(_pdlst) || NULL == _psrch) {
+        return ERR_NULL;
+    }
+    DNode_t* pforward = _pdlst->pdhead;
+    DNode_t* pbackward = _pdlst->pdtail;
+    while (pforward != pbackward) {
+        if (_psrch == pforward) {
+            return ERR_SUCCESS;
+        }
+        if (_psrch == pbackward) {
+            return ERR_SUCCESS;
+        }
+        pforward  = pforward->pnxt;
+        pbackward = pbackward->pprv;
+    }
+    return ERR_NOT_FOUND;
+}
 
-    return ERR_SUCCESS;
+bool DList_IsEmpty(DList_t const * const _pdlst)
+{
+    return (bool)_pdlst->pdhead;
 }

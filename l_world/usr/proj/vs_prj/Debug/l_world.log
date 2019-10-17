@@ -1,3 +1,24 @@
-﻿  queue.c
-  F:\study\Projects\gl_world\l_world\lib\queue.c(29) : warning C4716: “Queue_Init”: 必须返回一个值
+﻿  mm.c
+F:\study\Projects\gl_world\l_world\mm\mm.h(64,38): warning C4047:  “函数”:“mm_t *const ”与“unsigned int”的间接级别不同
+F:\study\Projects\gl_world\l_world\mm\mm.h(64,38): warning C4024:  “mm_malloc”: 形参和实参 1 的类型不同
+F:\study\Projects\gl_world\l_world\mm\mm.h(69,39): warning C4047:  “函数”:“mm_t *const ”与“unsigned int”的间接级别不同
+F:\study\Projects\gl_world\l_world\mm\mm.h(69,39): warning C4024:  “mm_realloc”: 形参和实参 1 的类型不同
+F:\study\Projects\gl_world\l_world\mm\mm.h(69,51): warning C4090:  “函数”: 不同的“const”限定符
+F:\study\Projects\gl_world\l_world\mm\mm.h(74,29): warning C4047:  “函数”:“mm_t *const ”与“unsigned int”的间接级别不同
+F:\study\Projects\gl_world\l_world\mm\mm.h(74,29): warning C4024:  “mm_free”: 形参和实参 1 的类型不同
+F:\study\Projects\gl_world\l_world\mm\mm.c(54,75): warning C4047:  “<=”:“int”与“void *”的间接级别不同
+F:\study\Projects\gl_world\l_world\mm\mm.c(109,25): warning C4090:  “return”: 不同的“const”限定符
+F:\study\Projects\gl_world\l_world\mm\mm.c(123,25): warning C4090:  “return”: 不同的“const”限定符
+F:\study\Projects\gl_world\l_world\mm\mm.c(139,37): warning C4090:  “=”: 不同的“const”限定符
+F:\study\Projects\gl_world\l_world\mm\mm.c(144,37): warning C4090:  “=”: 不同的“const”限定符
+F:\study\Projects\gl_world\l_world\mm\mm.c(134,1): warning C4133:  “初始化”: 从“DList_t *const ”到“const mblk_t *”的类型不兼容
+F:\study\Projects\gl_world\l_world\mm\mm.c(156,35): warning C4013:  “SingleList_UnRingDelete”未定义；假设外部返回 int
+F:\study\Projects\gl_world\l_world\mm\mm.c(179,35): warning C4133:  “=”: 从“mblk_t *”到“DNode_t *”的类型不兼容
+F:\study\Projects\gl_world\l_world\mm\mm.c(180,36): warning C4133:  “=”: 从“mblk_t *”到“DNode_t *”的类型不兼容
+F:\study\Projects\gl_world\l_world\mm\mm.c(186,1): warning C4028:  形参 1 与声明不同
+F:\study\Projects\gl_world\l_world\mm\mm.c(190,1): warning C4133:  “初始化”: 从“DList_t *”到“mblk_t *”的类型不兼容
+F:\study\Projects\gl_world\l_world\mm\mm.c(225,1): warning C4028:  形参 1 与声明不同
+F:\study\Projects\gl_world\l_world\mm\mm.c(232,1): warning C4028:  形参 1 与声明不同
+F:\study\Projects\gl_world\l_world\mm\mm.c(232,1): warning C4028: F:\study\Projects\gl_world\l_world\mm\mm.c(181) : warning C4716: “mm_init”: 必须返回一个值
+F:\study\Projects\gl_world\l_world\mm\mm.c(232,1): warning C4028: F:\study\Projects\gl_world\l_world\mm\mm.c(227) : warning C4716: “mm_realloc”: 必须返回一个值
   l_world.vcxproj -> F:\study\Projects\gl_world\l_world\usr\proj\vs_prj\Debug\l_world.exe
