@@ -63,7 +63,7 @@ extern err_t DList_RingSearch(DList_t * const _pbase, DNode_t * const _psch);
 
 extern err_t DList_UnRingReplaceNode(DList_t* const _pdlst, DNode_t* const _preplace);
 extern err_t DList_UnRingInsert(DList_t * const _pdlst, DNode_t * const _pin);
-extern err_t DList_UnRingAdd(DList_t * const _pdlst, DNode_t * const _pin);
+extern err_t DList_UnRingAdd(DList_t * const _pdlst, DNode_t * const _padd);
 extern err_t DList_UnRingRemove(DList_t * const _pdlst, DNode_t * const _prmv);
 extern err_t DList_UnRingDelete(DList_t * const _pdlst, DNode_t * const _pdel);
 extern void* DList_UnRingPop(DList_t * const _pdlst, DNode_t * const _ppop);

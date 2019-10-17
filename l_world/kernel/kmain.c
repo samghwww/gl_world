@@ -42,6 +42,21 @@ static inline void pause(void) {
 void task0_func(void* _parg)
 {
 	dbg_msgl("The first task reached.");
+#define MM_TEST_ALLOC(sz)                       \
+    char* const m##sz = (char*)malloc(sz);      \
+    if (NULL != m##sz) {                        \
+        dbg_msgl("m%d Memory allocate successful!", sz);\
+    } else {                                    \
+        dbg_msgl("m%d Memory allocate failure???", sz); \
+    }
+
+#define MM(sz)              m##sz
+    //char* const ptmp = (char*)malloc(100);
+
+    MM_TEST_ALLOC(500);
+    MM_TEST_ALLOC(100);
+
+    
 }
 
 void task1_func(void* _parg)

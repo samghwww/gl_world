@@ -14,6 +14,7 @@ History:
 
 #include "../lib/queue.h"
 #include "../lib/list.h"
+#include "../inc/debug.h"
 
 #include <string.h>
 
@@ -35,21 +36,25 @@ typedef enum {
 
 // If allocte a new memory block,
 // use this macro to calcaulate how much memory space memory block occupied.
-#define BLK_MSZ(bsz) ( (bsz) + sizeof(void*) )
+#define BLK_MSZ(bsz)        ( (bsz) + sizeof(void*) )
 
 // memory block pointer convert to memory base address
-#define BLK2MEM(pb) ( (void*) (((char*)pb) + sizeof(void*)) )
+#define BLK2MEM(pblk)       ( (void*) (((char*)(pblk)) + sizeof(void*)) )
 
 // Memory address convert to memory pointer
-#define MEM2BLK(pm) ( (mblk_t*) (((char*)pm) - sizeof(void*)) )
+#define MEM2BLK(pmem)       ( (mblk_t*) (((char*)(pmem)) - sizeof(void*)) )
+
+// Memory block convert to dual link node list node.
+#define BLK2DNODE(pblk)     ( (DNode_t*)(&((pblk)->pprv)) )
+// Dual link node list node convert to memory block.
+#define DNODE2BLK(pdnode)   ( (mblk_t*) (((char*)(pdnode)) - sizeof(void*)) )
 
 #define IS_ALLOC_ALL_FREE_BLOCK(pfrblk, allocSz)    \
     (allocSz == (pfrblk)->sz ||                     \
      (allocSz+sizeof(*pfrblk)+sizeof(void*)) >= (pfrblk)->sz)
 
 
-void * const MemoryPool[MM_POOL_SIZE_DEF/sizeof(void*)];
-DList_t MemoryFreeBlockList;
+static void * const MemoryPool[MM_POOL_SIZE_DEF/sizeof(void*)];
 mm_t MCB[MM_POOL_NUNBER_DEF];   // Memory control block arry.
 
 static inline err_t mm_checkMemAddrValid(mm_t const * const _pmm,
@@ -157,13 +162,13 @@ static void mm_findBlkFreeNeighbor(mm_t const * const _pmm,
 static err_t mm_addFreeBlk(void const* const _pfrlst,
     mblk_t * const _pblkFree)
 {
-    return SingleList_UnRingAdd(_pfrlst, _pblkFree);
+    return DList_UnRingAdd(_pfrlst, _pblkFree);
 }
 
 static err_t mm_removeFreeBlk(void const * const _pfrlst,
     mblk_t const * const _pblkFree)
 {
-    return SingleList_UnRingDelete(_pfrlst, &_pblkFree->pprv);
+    return DList_UnRingDelete(_pfrlst, &_pblkFree->pprv);
 }
 
 static inline mblk_t * mm_mergeNeighborBlk(mblk_t * const _pblkPrv,
@@ -173,27 +178,34 @@ static inline mblk_t * mm_mergeNeighborBlk(mblk_t * const _pblkPrv,
     return _pblkPrv;
 }
 
+DBG_CODE(
+static void dbg_mm_printFreeListInfo(void const* const _pfrlist)
+{
+    const mblk_t const* pblk = (mblk_t*)(((DList_t*)_pfrlist)->pdhead);
+    while (pblk) {
+
+    }
+}
+)
+
 // Memory pool initializatio function.
 // _pmm: The pointer of the memory pool or memory base address.
 // _mmSz: The size of memory pool.
 err_t mm_init(void * const _pmm, ux_t _mmSz)
 {
     MCB[0].pbase  = _pmm;
-    MCB[0].pfrlst = &MemoryFreeBlockList;
     MCB[0].sz     = _mmSz;
-
-    
 
     mblk_t *pfrblk = (mblk_t*)_pmm;
     memset(pfrblk, 0x00, sizeof(*pfrblk));
     pfrblk->sz = _mmSz - (sizeof(void*) * 2); // Subtract pprv and pnxt
-    MCB[0].pfrlst->pdhead = pfrblk;
-    MCB[0] .pfrlst->pdtail = pfrblk;
+    MCB[0].frlst.pdhead = pfrblk;
+    MCB[0].frlst.pdtail = pfrblk;
 }
 
 // Allocate a new memory block for user.
 // _sz: The size of memory user want.
-void* mm_malloc(mm_t *_pmm, ux_t _allocSz)
+void* mm_malloc(mm_t * const _pmm, ux_t _allocSz)
 {
     if (NULL == _pmm || NULL == _pmm->pfrlst || 0x00 == _allocSz) {
         goto MALLOC_FAILD;

@@ -125,6 +125,26 @@ err_t DList_UnRingInsert(DNode_t * const _pbase, DNode_t * const _pin)
 
     return ERR_SUCCESS;
 }
+
+err_t DList_UnRingAdd(DList_t* const _pdlst, DNode_t* const _padd)
+{
+    if (NULL == _pdlst || NULL == _padd) {
+        return ERR_NULL;
+    }
+    if (DList_IsEmpty(_pdlst)) {
+        _padd->pprv     = NULL;
+        _padd->pnxt     = NULL;
+        _pdlst->pdhead  = _padd;
+        _pdlst->pdtail  = _padd;
+    }
+    else {
+        _padd->pprv = _pdlst->pdtail;
+        _pdlst->pdtail->pnxt = _padd;
+        _pdlst->pdtail = _padd;
+    }
+    return ERR_SUCCEED;
+}
+
 err_t DList_UnRingDelete(DList_t* const _pdlst, DNode_t * const _pdel)
 {
     if (DList_IsEmpty(_pdlst) || NULL == _pdel) {
