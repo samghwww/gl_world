@@ -54,8 +54,8 @@ typedef enum {
      (allocSz+sizeof(*pfrblk)+sizeof(void*)) >= (pfrblk)->sz)
 
 
-static void * const MemoryPool[MM_POOL_SIZE_DEF/sizeof(void*)];
-mm_t MCB[MM_POOL_NUNBER_DEF];   // Memory control block arry.
+static void * const MemoryPool[MM_POOL_SIZE_DEFAULT];
+mm_t MCB[MM_POOL_NUNBER_DEFAULT];   // Memory control block arry.
 
 static inline err_t mm_checkMemAddrValid(mm_t const * const _pmm,
   void const * const _pmemAddr)
@@ -80,7 +80,7 @@ static inline ux_t mm_getMemSz(void const* const _pmem)
 static inline err_t mm_freeBlkListAdd(mm_t * const _pmm,
     mblk_t const * const _pblk)
 {
-    return Queue_Delete((void*)_pmm->pfrlst, _pblk);
+    return Queue_Delete((void*)&_pmm->frlst, _pblk);
 }
 
 static inline mblk_t *mm_getBlkPrevNeighor(mblk_t const * const _pblk)
@@ -179,11 +179,11 @@ static inline mblk_t * mm_mergeNeighborBlk(mblk_t * const _pblkPrv,
 }
 
 DBG_CODE(
-static void dbg_mm_printFreeListInfo(void const* const _pfrlist)
+static void dbg_mm_printFreeListInfo(void const * const _pfrlist)
 {
     const mblk_t const* pblk = (mblk_t*)(((DList_t*)_pfrlist)->pdhead);
     while (pblk) {
-
+        dbg_msgl("%08X: %d", pblk, pblk->sz);
     }
 }
 )
@@ -199,18 +199,19 @@ err_t mm_init(void * const _pmm, ux_t _mmSz)
     mblk_t *pfrblk = (mblk_t*)_pmm;
     memset(pfrblk, 0x00, sizeof(*pfrblk));
     pfrblk->sz = _mmSz - (sizeof(void*) * 2); // Subtract pprv and pnxt
-    MCB[0].frlst.pdhead = pfrblk;
-    MCB[0].frlst.pdtail = pfrblk;
+
+    MCB[0].frlst.phead = pfrblk;
+    MCB[0].frlst.ptail = pfrblk;
 }
 
 // Allocate a new memory block for user.
 // _sz: The size of memory user want.
 void* mm_malloc(mm_t * const _pmm, ux_t _allocSz)
 {
-    if (NULL == _pmm || NULL == _pmm->pfrlst || 0x00 == _allocSz) {
+    if (NULL == _pmm || NULL == &_pmm->frlst || 0x00 == _allocSz) {
         goto MALLOC_FAILD;
     }
-    mblk_t *psrch = _pmm->pfrlst;
+    mblk_t *psrch = &_pmm->frlst;
     while (psrch) {
         if (psrch->sz >= _allocSz) {
             goto MALLOC_SUCCEED;
@@ -225,12 +226,12 @@ MALLOC_SUCCEED:
     // Just remove this current free node.
     // Otherwise change it point to the new free node,
     // and set the new free node's free space size.
-    mm_removeFreeBlk(_pmm->pfrlst, psrch);
+    mm_removeFreeBlk(&_pmm->frlst, psrch);
     if (IS_ALLOC_ALL_FREE_BLOCK(psrch, _allocSz)) {
         // mm_removeFreeBlk(_pmm->pfrlst, psrch);
     } else {
         //mblk_t *pnewFreeBlk = (mblk_t*)(((char*)BLK2MEM(psrch)) + _allocSz);
-        mm_addFreeBlk(_pmm->pfrlst, (mblk_t*)(((char*)BLK2MEM(psrch)) + _allocSz));
+        mm_addFreeBlk(&_pmm->frlst, (mblk_t*)(((char*)BLK2MEM(psrch)) + _allocSz));
     }
     return BLK2MEM(psrch);
 }
@@ -252,22 +253,22 @@ void mm_free(mm_t const * const _pmm, void const * const _pmem)
     mblk_neighbor_t frBlkNeighbor = {NULL, NULL};
     mm_findBlkFreeNeighbor(_pmm, pfrBlk, &frBlkNeighbor);
     if (frBlkNeighbor.pprv && frBlkNeighbor.pnxt) {
-        mm_removeFreeBlk(_pmm->pfrlst, frBlkNeighbor.pprv);
-        mm_removeFreeBlk(_pmm->pfrlst, frBlkNeighbor.pnxt);
+        mm_removeFreeBlk(&_pmm->frlst, frBlkNeighbor.pprv);
+        mm_removeFreeBlk(&_pmm->frlst, frBlkNeighbor.pnxt);
         mm_mergeNeighborBlk(frBlkNeighbor.pprv, pfrBlk);
         mm_mergeNeighborBlk(frBlkNeighbor.pprv, frBlkNeighbor.pnxt);
-        mm_addFreeBlk(_pmm->pfrlst, frBlkNeighbor.pprv);
+        mm_addFreeBlk(&_pmm->frlst, frBlkNeighbor.pprv);
     }
     else if (frBlkNeighbor.pprv) {
-        mm_removeFreeBlk(_pmm->pfrlst, frBlkNeighbor.pprv);
+        mm_removeFreeBlk(&_pmm->frlst, frBlkNeighbor.pprv);
         mm_mergeNeighborBlk(frBlkNeighbor.pprv, pfrBlk);
-        mm_addFreeBlk(_pmm->pfrlst, frBlkNeighbor.pprv);
+        mm_addFreeBlk(&_pmm->frlst, frBlkNeighbor.pprv);
     }
     else if (frBlkNeighbor.pnxt) {
-        mm_removeFreeBlk(_pmm->pfrlst, frBlkNeighbor.pnxt);
+        mm_removeFreeBlk(&_pmm->frlst, frBlkNeighbor.pnxt);
         mm_mergeNeighborBlk(pfrBlk, frBlkNeighbor.pnxt);
-        mm_addFreeBlk(_pmm->pfrlst, pfrBlk);
+        mm_addFreeBlk(&_pmm->frlst, pfrBlk);
     } else {
-        mm_addFreeBlk(_pmm->pfrlst, pfrBlk);
+        mm_addFreeBlk(&_pmm->frlst, pfrBlk);
     }
 }
