@@ -18,10 +18,10 @@ History:
 #include <stdlib.h>
 
 // Pointer(any) convert to single node pointer
-#define POINTER2PSNODE(p)		((SNode_t*)p)
+#define POINTER2PSNODE(p)       ((SNode_t*)p)
 
 // Pointer(any) convert to double/dual node pointer
-#define POINTER2PDNODE(p)		((DNode_t*)p)
+#define POINTER2PDNODE(p)       ((DNode_t*)p)
 
 err_t Queue_Init(void)
 {
@@ -30,10 +30,10 @@ err_t Queue_Init(void)
 
 static inline err_t queue_AddFisrtElement(Queue_t * const _pq, void * const _pfirst)
 {
-	POINTER2PSNODE(_pfirst)->pnxt = NULL;
-	_pq->phead = _pfirst;
-	_pq->ptail = _pfirst;
-	return ERR_SUCCEED;
+    POINTER2PSNODE(_pfirst)->pnxt = NULL;
+    _pq->phead = _pfirst;
+    _pq->ptail = _pfirst;
+    return ERR_SUCCEED;
 }
 
 err_t Queue_ChgHead(Queue_t * const _pq, void *_p)
@@ -41,9 +41,9 @@ err_t Queue_ChgHead(Queue_t * const _pq, void *_p)
     if (NULL == _pq || NULL == _p) {
         return ERR_NULL;
     }
-	if (_pq->phead) {
-		POINTER2PSNODE(_p)->pnxt = POINTER2PSNODE(_pq->phead)->pnxt;
-	}
+    if (_pq->phead) {
+        POINTER2PSNODE(_p)->pnxt = POINTER2PSNODE(_pq->phead)->pnxt;
+    }
     _pq->phead = _p;
     return ERR_SUCCEED;
 }
@@ -51,7 +51,7 @@ err_t Queue_ChgHead(Queue_t * const _pq, void *_p)
 err_t Queue_AddHead(Queue_t* const _pq, void* _p)
 {
 
-	return ERR_SUCCEED;
+    return ERR_SUCCEED;
 }
 
 err_t Queue_AddTail(Queue_t * const _pq, void *_p)
@@ -59,30 +59,33 @@ err_t Queue_AddTail(Queue_t * const _pq, void *_p)
     if (NULL == _pq || NULL == _p) {
         return ERR_NULL;
     }
-	POINTER2PSNODE(_p)->pnxt = NULL;
-	_pq->pstail->pnxt = _p;
-	_pq->pstail = _p;
+    POINTER2PSNODE(_p)->pnxt = NULL;
+    _pq->pstail->pnxt = _p;
+    _pq->pstail = _p;
     return ERR_SUCCEED;
 }
 
+// Insert queue element to queue.
+// _pb: The queue basic element pointer.
+// _pin: The insert element pointer.
 err_t Queue_Insert(void *_pb, void *_pin)
 {
     if (NULL == _pb || NULL == _pin) {
         return ERR_NULL;
     }
-	POINTER2PSNODE(_pin)->pnxt = POINTER2PSNODE(_pb)->pnxt;
-	POINTER2PSNODE(_pb)->pnxt = _pin;
+    POINTER2PSNODE(_pin)->pnxt = POINTER2PSNODE(_pb)->pnxt;
+    POINTER2PSNODE(_pb)->pnxt = _pin;
     return ERR_SUCCEED;
 }
 
 err_t Queue_Add(Queue_t* const _pq, void* const _padd)
 {
-	if (Queue_IsEmpty(_pq)) {
-		queue_AddFisrtElement(_pq, _padd);
-	} else {
-		Queue_AddTail(_pq, _padd);
-	}
-	return ERR_SUCCEED;
+    if (Queue_IsEmpty(_pq)) {
+        queue_AddFisrtElement(_pq, _padd);
+    } else {
+        Queue_AddTail(_pq, _padd);
+    }
+    return ERR_SUCCEED;
 }
 
 err_t Queue_Search(Queue_t const * const _pq, void const * const _psrch)
@@ -90,12 +93,12 @@ err_t Queue_Search(Queue_t const * const _pq, void const * const _psrch)
     if (NULL == _pq || NULL == _psrch) {
         return ERR_NOT_FOUND;
     }
-    SNode_t const *tmp = POINTER2PSNODE(_pq->phead);
-    while (tmp) {
-        if (tmp == _psrch) {
+    SNode_t const *ptmp = POINTER2PSNODE(_pq->phead);
+    while (ptmp) {
+        if (ptmp == _psrch) {
             return ERR_SUCCEED;
         } else {
-            tmp = tmp->pnxt;
+            ptmp = ptmp->pnxt;
         }
     }
     return ERR_NOT_FOUND;
@@ -134,7 +137,7 @@ err_t Queue_DelNode(void * const _pb, void const * const _pdel)
     if (POINTER2PSNODE(_pb)->pnxt != _pdel) {
         return ERR_NOT_FOUND;
     }
-	POINTER2PSNODE(_pb)->pnxt = POINTER2PSNODE(_pdel)->pnxt;
+    POINTER2PSNODE(_pb)->pnxt = POINTER2PSNODE(_pdel)->pnxt;
     return ERR_SUCCEED;
 }
 

@@ -20,8 +20,11 @@ extern "C" {
 #endif
 
 
-#define ARRY_SIZE(arr)      ( sizeof(arr)/sizeof(arr[0]) )
+// Macro calculate/get the size/lenght of array.
+// the parameter/argument must be array name but not pointer.
+#define ARRAY_SIZE(arr)      ( sizeof(arr)/sizeof(arr[0]) )
 
+// Bit mask
 #define BIT(n)              ( 1U<<(n) )
 
 

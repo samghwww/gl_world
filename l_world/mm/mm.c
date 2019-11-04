@@ -54,16 +54,20 @@ typedef enum {
      (allocSz+sizeof(*pfrblk)+sizeof(void*)) >= (pfrblk)->sz)
 
 
-static void * const MemoryPool[MM_POOL_SIZE_DEFAULT];
-mm_t MCB[MM_POOL_NUNBER_DEFAULT];   // Memory control block arry.
+// Memory pool.
+void * const MemoryPool[MM_POOL_SIZE_DEFAULT];
+
+// Memory pool control block or memory pool handle array.
+mm_t MemoryCtrlBlock[MM_POOL_NUNBER_DEFAULT];   // Memory control block arry.
 
 static inline err_t mm_checkMemAddrValid(mm_t const * const _pmm,
   void const * const _pmemAddr)
 {
-    if (_pmm->pbase <= _pmemAddr <= (void*)((char*)_pmm->pbase + _pmm->sz)) {
-      return ERR_SUCCESS;
+    if (_pmm->pbase <= _pmemAddr &&
+        _pmemAddr  <= (void*)((char*)_pmm->pbase + _pmm->sz)) {
+        return ERR_SUCCESS;
     } else {
-      return ERR_INVALID_ADDR;
+        return ERR_INVALID_ADDR;
     }
 }
 
@@ -115,7 +119,7 @@ static mblk_t *mm_findBlkPrevFreeNeighbor(mblk_t const * const _pblkBase,
     mblk_t const *psrch = (mblk_t const *)_pblkBase;
     while (psrch) {
         if (mm_2blkIsNeighbor(psrch, _pblkFind)) {
-            return psrch;
+            return (mblk_t*)psrch;
         } else {
             psrch = psrch->pnxt;
         }
@@ -129,7 +133,7 @@ static mblk_t *mm_findBlkNextFreeNeighbor(mblk_t const * const _pblkBase,
     mblk_t const *psrch = (mblk_t const *)_pblkBase;
     while (psrch) {
         if (mm_2blkIsNeighbor(_pblkFind, psrch)) {
-            return psrch;
+            return (mblk_t*)psrch;
         } else {
             psrch = psrch->pnxt;
         }
@@ -140,35 +144,38 @@ static mblk_t *mm_findBlkNextFreeNeighbor(mblk_t const * const _pblkBase,
 static void mm_findBlkFreeNeighbor(mm_t const * const _pmm,
     mblk_t const * const _pblkFind, mblk_neighbor_t * const _pneighbor)
 {
-    mblk_t const * psrch = _pmm->pfrlst;
+    mblk_t const * psrch = (mblk_t const*)&_pmm->frlst.phead;
     _pneighbor->pprv = NULL;
     _pneighbor->pnxt = NULL;
     while (psrch) {
-        if (mm_2blkIsNeighbor(psrch, _pblkFind)) {
-            _pneighbor->pprv = psrch;
-            _pneighbor->pnxt = mm_findBlkNextFreeNeighbor(psrch->pnxt, _pblkFind);
-            break;
+        if (psrch < _pblkFind) {
+            if (mm_2blkIsNeighbor(psrch, _pblkFind)) {
+                _pneighbor->pprv = (mblk_t*)psrch;
+                _pneighbor->pnxt = mm_findBlkNextFreeNeighbor(psrch->pnxt, _pblkFind);
+                break;
+            }
         }
-        else if (mm_2blkIsNeighbor(_pblkFind, psrch)) {
-            _pneighbor->pnxt = psrch;
-            _pneighbor->pprv = mm_findBlkPrevFreeNeighbor(psrch->pnxt, _pblkFind);
-            break;
-        } else {
-            psrch = psrch->pnxt;
+        else if (_pblkFind < psrch) {
+            if (mm_2blkIsNeighbor(_pblkFind, psrch)) {
+                _pneighbor->pnxt = (mblk_t*)psrch;
+                _pneighbor->pprv = mm_findBlkPrevFreeNeighbor(psrch->pnxt, _pblkFind);
+                break;
+            }
         }
+        psrch = psrch->pnxt;
     }
 }
 
 static err_t mm_addFreeBlk(void const* const _pfrlst,
     mblk_t * const _pblkFree)
 {
-    return DList_UnRingAdd(_pfrlst, _pblkFree);
+    return ERR_SUCCEED;
 }
 
 static err_t mm_removeFreeBlk(void const * const _pfrlst,
     mblk_t const * const _pblkFree)
 {
-    return DList_UnRingDelete(_pfrlst, &_pblkFree->pprv);
+    return ERR_SUCCEED;
 }
 
 static inline mblk_t * mm_mergeNeighborBlk(mblk_t * const _pblkPrv,
@@ -178,30 +185,30 @@ static inline mblk_t * mm_mergeNeighborBlk(mblk_t * const _pblkPrv,
     return _pblkPrv;
 }
 
-DBG_CODE(
+
 static void dbg_mm_printFreeListInfo(void const * const _pfrlist)
 {
     const mblk_t const* pblk = (mblk_t*)(((DList_t*)_pfrlist)->pdhead);
     while (pblk) {
-        dbg_msgl("%08X: %d", pblk, pblk->sz);
+        dbg_msgl("%08X: %lld", (u32)pblk, pblk->sz);
     }
 }
-)
+
 
 // Memory pool initializatio function.
 // _pmm: The pointer of the memory pool or memory base address.
 // _mmSz: The size of memory pool.
 err_t mm_init(void * const _pmm, ux_t _mmSz)
 {
-    MCB[0].pbase  = _pmm;
-    MCB[0].sz     = _mmSz;
+    MemoryCtrlBlock[0].pbase  = _pmm;
+    MemoryCtrlBlock[0].sz     = _mmSz;
 
     mblk_t *pfrblk = (mblk_t*)_pmm;
     memset(pfrblk, 0x00, sizeof(*pfrblk));
     pfrblk->sz = _mmSz - (sizeof(void*) * 2); // Subtract pprv and pnxt
 
-    MCB[0].frlst.phead = pfrblk;
-    MCB[0].frlst.ptail = pfrblk;
+    MemoryCtrlBlock[0].frlst.phead = pfrblk;
+    MemoryCtrlBlock[0].frlst.ptail = pfrblk;
 }
 
 // Allocate a new memory block for user.
@@ -211,7 +218,7 @@ void* mm_malloc(mm_t * const _pmm, ux_t _allocSz)
     if (NULL == _pmm || NULL == &_pmm->frlst || 0x00 == _allocSz) {
         goto MALLOC_FAILD;
     }
-    mblk_t *psrch = &_pmm->frlst;
+    mblk_t *psrch = _pmm->frlst.phead;
     while (psrch) {
         if (psrch->sz >= _allocSz) {
             goto MALLOC_SUCCEED;
@@ -240,16 +247,16 @@ MALLOC_SUCCEED:
 // _pmm: memory pool base address or the pointer point to memory pool.
 // _p: the address/pointer of memory block allocated.
 // _sz: the size of memory user want to reallocate now.
-void* mm_realloc(mm_t* _pmm, void * const _pem, ux_t _sz)
+void* mm_realloc(mm_t* const _pmm, void const * const _prealloc, ux_t _sz)
 {
 
 }
 
 // Free the memory block allocated but want to free and do not use again.
 // The memory address user want to free.
-void mm_free(mm_t const * const _pmm, void const * const _pmem)
+void mm_free(mm_t const * const _pmm, void const * const _pfree)
 {
-    mblk_t *pfrBlk = MEM2BLK(_pmem);
+    mblk_t *pfrBlk = MEM2BLK(_pfree);
     mblk_neighbor_t frBlkNeighbor = {NULL, NULL};
     mm_findBlkFreeNeighbor(_pmm, pfrBlk, &frBlkNeighbor);
     if (frBlkNeighbor.pprv && frBlkNeighbor.pnxt) {

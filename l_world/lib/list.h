@@ -37,15 +37,23 @@ typedef struct dnode {
     struct dnode *pnxt;
 } DNode_t;
 
+// Single link node list base type definition.
 typedef struct {
     SNode_t *pshead;
     SNode_t *pstail;
 } SList_t;
 
+// Dual link node list base type definition.
 typedef struct {
     DNode_t *pdhead;
     DNode_t *pdtail;
 } DList_t;
+
+// S<xxx>_Ring<xxx>: Single link node ring/circle list relate function name.
+// S<xxx>_UnRing<xxx>: Single link node non-ring/circle list relate function name.
+
+// S<xxx>_Ring<xxx>: Single link node ring/circle list relate function name.
+// S<xxx>_UnRing<xxx>: Single link node non-ring/circle list relate function name.
 
 extern err_t SList_RingInsert(SNode_t * const _pbase, SNode_t * const _pin);
 extern err_t SList_RingAdd(SList_t * const _pslst, SNode_t * const _padd);

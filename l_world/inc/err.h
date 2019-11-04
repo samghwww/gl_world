@@ -17,12 +17,19 @@ History:
 extern "C" {
 #endif
 
+#ifndef NULL
+#define NULL    0
+#endif
 
 /// @Brief ERROR/Exception enumerator type define
 typedef enum {
 	// Error code value define
 	ERR_SUCCESS = 0,    // Execute result ok.
 	ERR_SUCCEED = ERR_SUCCESS,
+    ERR_YES     = ERR_SUCCESS,
+    ERR_OK      = ERR_SUCCESS,
+    ERR_NG,
+    ERR_NO,
 	ERR_NULL,           // Empty pointer
 	ERR_NO_MEM,         // No enough memory
 	ERR_BUSY,           // Busy for something else

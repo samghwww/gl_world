@@ -1,5 +1,15 @@
 
+#include <stdio.h>
+//#include <strinig.h>
+#include <math.h>
 
+int main(void)
+{
+    printf("%d", pow(10, 3));
+    (void)_getch();
+    return 0;
+}
+#if 0
 #include "task.h"
 #include "sched/sched.h"
 
@@ -55,8 +65,6 @@ void task0_func(void* _parg)
 
     MM_TEST_ALLOC(500);
     MM_TEST_ALLOC(100);
-
-    
 }
 
 void task1_func(void* _parg)
@@ -101,9 +109,12 @@ int main(int argc, char const** const args)
     // Initialization function here.
     MM_INIT_DEF();
 
-	Task_Add(&task0);
+	//Task_Add(&task0);
 	Task_Add(&task1);
 	Task_Add(&task2);
+
+    TaskFnc_t tmp = task2_func;
+    tmp(NULL);
 
 	while (true) {
 		// Wakeup form sleep(deep/light) handle here.
@@ -114,3 +125,4 @@ int main(int argc, char const** const args)
 	}
 	// System should never reach here.
 }
+#endif

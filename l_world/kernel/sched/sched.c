@@ -27,7 +27,7 @@ void Scheduler(void)
             Event_Handler(); // Handle event here.
         }
         Task_SetSta(ptsk, TASK_STA_RUNNING);
-        Task_EntryFuncCaller(ptsk);
+        Task_CallFunc(ptsk);
         Task_SetSta(ptsk, TASK_STA_IDLE);
     }
 }

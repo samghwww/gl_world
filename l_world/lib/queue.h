@@ -22,12 +22,12 @@ extern "C" {
 
 typedef struct queue {
     union {
-        void	*phead;
+        void    *phead;
         SNode_t *pshead;
         DNode_t *pdhead;
     };
-	union {
-        void	*ptail;
+    union {
+        void    *ptail;
         SNode_t *pstail;
         DNode_t *pdtail;
     };

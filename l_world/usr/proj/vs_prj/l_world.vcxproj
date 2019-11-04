@@ -26,6 +26,7 @@
     <ClCompile Include="..\..\..\kernel\kmain.c" />
     <ClCompile Include="..\..\..\kernel\sched\sched.c" />
     <ClCompile Include="..\..\..\kernel\task.c" />
+    <ClCompile Include="..\..\..\lib\fifo.c" />
     <ClCompile Include="..\..\..\lib\list.c" />
     <ClCompile Include="..\..\..\lib\queue.c" />
     <ClCompile Include="..\..\..\mm\heap.c" />

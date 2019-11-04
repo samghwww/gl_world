@@ -1,11 +1,11 @@
-﻿  sched.c
-  task.c
-F:\study\gl_world\gl_world\l_world\kernel\task.h(73,7): error C2061:  语法错误: 标识符“Task_Add”
-F:\study\gl_world\gl_world\l_world\kernel\task.h(73,7): error C2059:  语法错误:“;”
-  test.c
-F:\study\gl_world\gl_world\l_world\kernel\task.h(73,22): error C2059:  语法错误:“<parameter-list>”
-F:\study\gl_world\gl_world\l_world\kernel\task.h(73,7): error C2061:  语法错误: 标识符“Task_Add”
-F:\study\gl_world\gl_world\l_world\kernel\task.h(73,7): error C2059:  语法错误:“;”
-F:\study\gl_world\gl_world\l_world\kernel\task.h(73,22): error C2059:  语法错误:“<parameter-list>”
-  正在生成代码...
-F:\study\gl_world\gl_world\l_world\proj\vs_prj\test.c(24,10): warning C4013:  “Task_Add”未定义；假设外部返回 int
+﻿  kmain.c
+F:\GL\gl_world\l_world\kernel\kmain.c(8,12): warning C4477:  'printf' : format string '%d' requires an argument of type 'int', but variadic argument 1 has type 'double'
+  mm.c
+F:\GL\gl_world\l_world\kernel\kmain.c(9,17): warning C4013:  '_getch' undefined; assuming extern returning int
+F:\GL\gl_world\l_world\mm\mm.c(191,18): warning C4114:  same type qualifier used more than once
+F:\GL\gl_world\l_world\mm\mm.c(193,9): warning C4311:  'type cast': pointer truncation from 'const mblk_t *' to 'u32'
+  Generating Code...
+F:\GL\gl_world\l_world\mm\mm.c(258,1): warning C4028:  formal parameter 1 different from declaration
+F:\GL\gl_world\l_world\mm\mm.c(258,1): warning C4028: F:\GL\gl_world\l_world\mm\mm.c(212) : warning C4716: 'mm_init': must return a value
+F:\GL\gl_world\l_world\mm\mm.c(258,1): warning C4028: F:\GL\gl_world\l_world\mm\mm.c(253) : warning C4716: 'mm_realloc': must return a value
+  l_world.vcxproj -> F:\GL\gl_world\l_world\usr\proj\vs_prj\x64\Debug\l_world.exe

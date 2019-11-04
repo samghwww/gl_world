@@ -12,35 +12,47 @@ History:
 #ifndef TASK_H_
 #define TASK_H_
 
+#include "../lib/queue.h"
 #include "../inc/err.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#define TASK_INNER_PRIORITY_ENABLED			1
+#define TASK_PRIO_MAX                       32
+
+#define TASK_PRIO_AMOUNT_DEFAULT            6
+
+#if (defined(CFG_TASK_PRIO_AMOUNT) && CFG_TASK_PRIO_AMOUNT)
+    #define TASK_PRIO_AMOUNT        CFG_TASK_PRIO_AMOUNT
+#else
+    #define TASK_PRIO_AMOUNT        TASK_PRIO_AMOUNT_DEFAULT
+#endif
+
+#if (TASK_PRIO_AMOUNT >= TASK_PRIO_MAX)
+    #error TASK_PRIO_AMOUNT configuration is error, please check again!
+#endif
 
 // Task entry function type.
 typedef void (*TaskFnc_t)(void *parg);
 // Task priority data type.
 typedef enum {
-	TASK_PRIO_LEVEL_BASE,
-	TASK_PRIO_LEVEL_0	= TASK_PRIO_LEVEL_BASE,
-	TASK_PRIO_LEVEL_1,
-	TASK_PRIO_LEVEL_2,
-	TASK_PRIO_LEVEL_3,
-	TASK_PRIO_LEVEL_4,
-	TASK_PRIO_LEVEL_5,
-	TASK_PRIO_INVALID,
+    TASK_PRIO_LEVEL_BASE,
+    TASK_PRIO_LEVEL_0   = TASK_PRIO_LEVEL_BASE,
+    TASK_PRIO_LEVEL_1,
+    TASK_PRIO_LEVEL_2,
+    TASK_PRIO_LEVEL_3,
+    TASK_PRIO_LEVEL_4,
+    TASK_PRIO_LEVEL_5,
+    TASK_PRIO_INVALID   = TASK_PRIO_AMOUNT,
 
-	TASK_PRIO_LEVEL_MIN = TASK_PRIO_LEVEL_BASE,
-	TASK_PRIO_LEVEL_MAX = TASK_PRIO_INVALID - 1,
+    TASK_PRIO_LEVEL_MIN = TASK_PRIO_LEVEL_BASE,
+    TASK_PRIO_LEVEL_MAX = TASK_PRIO_INVALID - 1,
 
-    TASK_PRIO_LOWEST	= TASK_PRIO_LEVEL_MAX,
-	TASK_PRIO_HIGHEST	= TASK_PRIO_LEVEL_MIN,
-	
-    TASK_PRIO_NUMBER	= TASK_PRIO_INVALID,
-    TASK_PRIO_AMOUNT	= TASK_PRIO_NUMBER,
+    TASK_PRIO_LOWEST    = TASK_PRIO_LEVEL_MAX,
+    TASK_PRIO_HIGHEST   = TASK_PRIO_LEVEL_MIN,
+
+    TASK_PRIO_NUMBER    = TASK_PRIO_INVALID,
 } TaskPrio_t;
 // Task state/status type define.
 typedef enum {
@@ -56,12 +68,18 @@ typedef struct task {
     TaskFnc_t    pfnc; // Task entry function.
     void        *parg; // Task entry function parameter/argument pointer.
     TaskSta_t    sta;  // Task state/status.
-#if TASK_INNER_PRIORITY_ENABLED
-	TaskPrio_t   prio; // Task priority.
-#endif // TASK_INNER_PRIORITY_ENABLED
+    TaskPrio_t   prio; // Task priority.
 } Task_t;
 
-static inline void Task_EntryFuncCaller(Task_t const * const _ptsk)
+typedef struct {
+    TaskPrio_t  rdyHighestPrio;
+    Queue_t     queueArray[TASK_PRIO_AMOUNT];
+} TaskManager_t;
+
+extern TaskManager_t TaskManager;
+
+// Call/Invoke task entry function.
+static inline void Task_CallFunc(Task_t const * const _ptsk)
 {
     if (_ptsk->pfnc) {
         _ptsk->pfnc(_ptsk->parg);
@@ -78,6 +96,15 @@ static inline TaskSta_t Task_GetSta(Task_t const * const _ptsk)
     return _ptsk->sta;
 }
 
+static inline void Task_SetReadyHighestPrio(TaskPrio_t _rdyHighestPrio)
+{
+    TaskManager.rdyHighestPrio = _rdyHighestPrio;
+}
+
+static inline TaskPrio_t Task_GetReadyHighestPrio(void)
+{
+    return TaskManager.rdyHighestPrio;
+}
 
 Task_t* Task_GetHighester(void);
 err_t Task_Add(Task_t* const _ptskPut);

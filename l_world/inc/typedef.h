@@ -25,7 +25,6 @@ extern "C" {
 #define __l                             long
 #define __ll                            long long
 
-#define __r                             reg;
 typedef __u                             sz_t;
 
 typedef __c                             s8;
