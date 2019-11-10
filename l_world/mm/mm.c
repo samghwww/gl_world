@@ -55,7 +55,7 @@ typedef enum {
 
 
 // Memory pool.
-void * const MemoryPool[MM_POOL_SIZE_DEFAULT];
+void const * MemoryPool[MM_POOL_SIZE_DEFAULT];
 
 // Memory pool control block or memory pool handle array.
 mm_t MemoryCtrlBlock[MM_POOL_NUNBER_DEFAULT];   // Memory control block arry.
@@ -118,11 +118,12 @@ static mblk_t *mm_findBlkPrevFreeNeighbor(mblk_t const * const _pblkBase,
 {
     mblk_t const *psrch = (mblk_t const *)_pblkBase;
     while (psrch) {
-        if (mm_2blkIsNeighbor(psrch, _pblkFind)) {
-            return (mblk_t*)psrch;
-        } else {
-            psrch = psrch->pnxt;
+        if (psrch < _pblkFind) {
+            if (mm_2blkIsNeighbor(psrch, _pblkFind)) {
+                return (mblk_t*)psrch;
+            }
         }
+        psrch = psrch->pnxt;
     }
     return NULL;
 }
@@ -132,11 +133,12 @@ static mblk_t *mm_findBlkNextFreeNeighbor(mblk_t const * const _pblkBase,
 {
     mblk_t const *psrch = (mblk_t const *)_pblkBase;
     while (psrch) {
-        if (mm_2blkIsNeighbor(_pblkFind, psrch)) {
-            return (mblk_t*)psrch;
-        } else {
-            psrch = psrch->pnxt;
+        if (_pblkFind < psrch) {
+            if (mm_2blkIsNeighbor(_pblkFind, psrch)) {
+                return (mblk_t*)psrch;
+            }
         }
+        psrch = psrch->pnxt;
     }
     return NULL;
 }
@@ -148,34 +150,38 @@ static void mm_findBlkFreeNeighbor(mm_t const * const _pmm,
     _pneighbor->pprv = NULL;
     _pneighbor->pnxt = NULL;
     while (psrch) {
-        if (psrch < _pblkFind) {
-            if (mm_2blkIsNeighbor(psrch, _pblkFind)) {
-                _pneighbor->pprv = (mblk_t*)psrch;
-                _pneighbor->pnxt = mm_findBlkNextFreeNeighbor(psrch->pnxt, _pblkFind);
-                break;
+        if (NULL == _pneighbor->pprv) {
+            if (psrch < _pblkFind) {
+                if (mm_2blkIsNeighbor(psrch, _pblkFind)) {
+                    _pneighbor->pprv = (mblk_t*)psrch;
+                    _pneighbor->pnxt = mm_findBlkNextFreeNeighbor(psrch->pnxt, _pblkFind);
+                    break;
+                }
             }
         }
-        else if (_pblkFind < psrch) {
-            if (mm_2blkIsNeighbor(_pblkFind, psrch)) {
-                _pneighbor->pnxt = (mblk_t*)psrch;
-                _pneighbor->pprv = mm_findBlkPrevFreeNeighbor(psrch->pnxt, _pblkFind);
-                break;
+        if (NULL == _pneighbor->pnxt) {
+            if (_pblkFind < psrch) {
+                if (mm_2blkIsNeighbor(_pblkFind, psrch)) {
+                    _pneighbor->pnxt = (mblk_t*)psrch;
+                    _pneighbor->pprv = mm_findBlkPrevFreeNeighbor(psrch->pnxt, _pblkFind);
+                    break;
+                }
             }
         }
         psrch = psrch->pnxt;
     }
 }
 
-static err_t mm_addFreeBlk(void const* const _pfrlst,
+static err_t mm_addFreeBlk(void * const _pfrlst,
     mblk_t * const _pblkFree)
 {
-    return ERR_SUCCEED;
+    return DList_UnRingAdd(_pfrlst, _pblkFree);
 }
 
-static err_t mm_removeFreeBlk(void const * const _pfrlst,
+static err_t mm_removeFreeBlk(void * const _pfrlst,
     mblk_t const * const _pblkFree)
 {
-    return ERR_SUCCEED;
+    return DList_UnRingDelete(_pfrlst, _pblkFree);
 }
 
 static inline mblk_t * mm_mergeNeighborBlk(mblk_t * const _pblkPrv,
@@ -205,7 +211,7 @@ err_t mm_init(void * const _pmm, ux_t _mmSz)
 
     mblk_t *pfrblk = (mblk_t*)_pmm;
     memset(pfrblk, 0x00, sizeof(*pfrblk));
-    pfrblk->sz = _mmSz - (sizeof(void*) * 2); // Subtract pprv and pnxt
+    pfrblk->sz = _mmSz - sizeof(void*); // Subtract pprv and pnxt
 
     MemoryCtrlBlock[0].frlst.phead = pfrblk;
     MemoryCtrlBlock[0].frlst.ptail = pfrblk;
@@ -215,7 +221,7 @@ err_t mm_init(void * const _pmm, ux_t _mmSz)
 // _sz: The size of memory user want.
 void* mm_malloc(mm_t * const _pmm, ux_t _allocSz)
 {
-    if (NULL == _pmm || NULL == &_pmm->frlst || 0x00 == _allocSz) {
+    if (NULL == _pmm || 0x00 == _allocSz) {
         goto MALLOC_FAILD;
     }
     mblk_t *psrch = _pmm->frlst.phead;
@@ -237,9 +243,11 @@ MALLOC_SUCCEED:
     if (IS_ALLOC_ALL_FREE_BLOCK(psrch, _allocSz)) {
         // mm_removeFreeBlk(_pmm->pfrlst, psrch);
     } else {
-        //mblk_t *pnewFreeBlk = (mblk_t*)(((char*)BLK2MEM(psrch)) + _allocSz);
-        mm_addFreeBlk(&_pmm->frlst, (mblk_t*)(((char*)BLK2MEM(psrch)) + _allocSz));
+        mblk_t *pnewFreeBlk = (mblk_t*)(((char*)BLK2MEM(psrch)) + _allocSz);
+        pnewFreeBlk->sz = psrch->sz - _allocSz - sizeof(void*);
+        mm_addFreeBlk(&_pmm->frlst, pnewFreeBlk);
     }
+    psrch->memSz = _allocSz;
     return BLK2MEM(psrch);
 }
 
@@ -247,7 +255,7 @@ MALLOC_SUCCEED:
 // _pmm: memory pool base address or the pointer point to memory pool.
 // _p: the address/pointer of memory block allocated.
 // _sz: the size of memory user want to reallocate now.
-void* mm_realloc(mm_t* const _pmm, void const * const _prealloc, ux_t _sz)
+void* mm_realloc(mm_t* const _pmm, void const * const _prealloc, ux_t _reallocSz)
 {
 
 }

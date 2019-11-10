@@ -1,11 +1,25 @@
 ﻿  kmain.c
-F:\GL\gl_world\l_world\kernel\kmain.c(8,12): warning C4477:  'printf' : format string '%d' requires an argument of type 'int', but variadic argument 1 has type 'double'
+F:\GL\gl_world\l_world\kernel\kmain.c(61,5): warning C4013:  'memset' undefined; assuming extern returning int
+  fifo.c
+F:\GL\gl_world\l_world\kernel\kmain.c(112,5): warning C4090:  'function': different 'const' qualifiers
+F:\GL\gl_world\l_world\lib\fifo.c(53,58): warning C4133:  '=': incompatible types - from 'Fifo_t *' to 'u8 *'
+F:\GL\gl_world\l_world\lib\fifo.c(127,49): warning C4047:  'function': 'u8 *const ' differs in levels of indirection from 'u8'
   mm.c
-F:\GL\gl_world\l_world\kernel\kmain.c(9,17): warning C4013:  '_getch' undefined; assuming extern returning int
-F:\GL\gl_world\l_world\mm\mm.c(191,18): warning C4114:  same type qualifier used more than once
-F:\GL\gl_world\l_world\mm\mm.c(193,9): warning C4311:  'type cast': pointer truncation from 'const mblk_t *' to 'u32'
+F:\GL\gl_world\l_world\lib\fifo.c(127,49): warning C4024:  'Fifo_Pop': different types for formal and actual parameter 2
+F:\GL\gl_world\l_world\mm\mm.c(178,46): warning C4133:  'function': incompatible types - from 'mblk_t *const ' to 'DNode_t *const '
+F:\GL\gl_world\l_world\mm\mm.c(184,49): warning C4090:  'function': different 'const' qualifiers
+F:\GL\gl_world\l_world\mm\mm.c(197,18): warning C4114:  same type qualifier used more than once
+F:\GL\gl_world\l_world\mm\mm.c(199,9): warning C4311:  'type cast': pointer truncation from 'const mblk_t *' to 'u32'
+F:\GL\gl_world\l_world\mm\mm.c(266,1): warning C4028:  formal parameter 1 different from declaration
+F:\GL\gl_world\l_world\mm\mm.c(271,38): warning C4090:  'function': different 'const' qualifiers
+F:\GL\gl_world\l_world\mm\mm.c(272,38): warning C4090:  'function': different 'const' qualifiers
+F:\GL\gl_world\l_world\mm\mm.c(275,35): warning C4090:  'function': different 'const' qualifiers
+F:\GL\gl_world\l_world\mm\mm.c(278,38): warning C4090:  'function': different 'const' qualifiers
+F:\GL\gl_world\l_world\mm\mm.c(280,35): warning C4090:  'function': different 'const' qualifiers
+F:\GL\gl_world\l_world\mm\mm.c(283,38): warning C4090:  'function': different 'const' qualifiers
+F:\GL\gl_world\l_world\mm\mm.c(285,35): warning C4090:  'function': different 'const' qualifiers
   Generating Code...
-F:\GL\gl_world\l_world\mm\mm.c(258,1): warning C4028:  formal parameter 1 different from declaration
-F:\GL\gl_world\l_world\mm\mm.c(258,1): warning C4028: F:\GL\gl_world\l_world\mm\mm.c(212) : warning C4716: 'mm_init': must return a value
-F:\GL\gl_world\l_world\mm\mm.c(258,1): warning C4028: F:\GL\gl_world\l_world\mm\mm.c(253) : warning C4716: 'mm_realloc': must return a value
+F:\GL\gl_world\l_world\mm\mm.c(287,35): warning C4090:  'function': different 'const' qualifiers
+F:\GL\gl_world\l_world\mm\mm.c(287,35): warning C4090: F:\GL\gl_world\l_world\mm\mm.c(218) : warning C4716: 'mm_init': must return a value
+F:\GL\gl_world\l_world\mm\mm.c(287,35): warning C4090: F:\GL\gl_world\l_world\mm\mm.c(261) : warning C4716: 'mm_realloc': must return a value
   l_world.vcxproj -> F:\GL\gl_world\l_world\usr\proj\vs_prj\x64\Debug\l_world.exe

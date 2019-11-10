@@ -155,7 +155,13 @@ void *Queue_PeekTail(Queue_t const * const _pq)
 // Get the header of queue and remove it.
 void *Queue_GetHead(Queue_t * const _pq)
 {
+    if (NULL == _pq) {
+        return NULL;
+    }
     void *ret = _pq->phead;
+    if (NULL == ret) {
+        return NULL;
+    }
 	_pq->phead = POINTER2PSNODE(_pq->phead)->pnxt;
     return ret;
 }

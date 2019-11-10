@@ -55,28 +55,28 @@ typedef struct {
 // S<xxx>_Ring<xxx>: Single link node ring/circle list relate function name.
 // S<xxx>_UnRing<xxx>: Single link node non-ring/circle list relate function name.
 
-extern err_t SList_RingInsert(SNode_t * const _pbase, SNode_t * const _pin);
-extern err_t SList_RingAdd(SList_t * const _pslst, SNode_t * const _padd);
-extern err_t SList_RingDelete(SList_t * const _pslst, SNode_t * const _pdel);
-extern err_t SList_RingSearch(SList_t * const _pslst, SNode_t * const _psch);
+err_t SList_RingInsert(SNode_t * const _pbase, SNode_t * const _pin);
+err_t SList_RingAdd(SList_t * const _pslst, SNode_t * const _padd);
+err_t SList_RingDelete(SList_t * const _pslst, SNode_t * const _pdel);
+err_t SList_RingSearch(SList_t * const _pslst, SNode_t * const _psch);
 
-extern err_t SList_UnRingInsert(SList_t * const _pslst, SNode_t * const _pin);
-extern err_t SList_UnRingAdd(SList_t * const _pslst, SNode_t * const _padd);
-extern err_t SList_UnRingDelete(SList_t * const _pslst, SNode_t * const _pdel);
-extern err_t SList_UnRingSearch(SList_t * const _pslst, SNode_t * const _psch);
+err_t SList_UnRingInsert(SList_t * const _pslst, SNode_t * const _pin);
+err_t SList_UnRingAdd(SList_t * const _pslst, SNode_t * const _padd);
+err_t SList_UnRingDelete(SList_t * const _pslst, SNode_t * const _pdel);
+err_t SList_UnRingSearch(SList_t * const _pslst, SNode_t * const _psch);
 
-extern err_t DList_RingInsert(DList_t * const _pbase, DNode_t * const _pin);
-extern err_t DList_RingDelete(DList_t * const _pbase, DNode_t * const _pdel);
-extern err_t DList_RingSearch(DList_t * const _pbase, DNode_t * const _psch);
+err_t DList_RingInsert(DList_t * const _pbase, DNode_t * const _pin);
+err_t DList_RingDelete(DList_t * const _pbase, DNode_t * const _pdel);
+err_t DList_RingSearch(DList_t * const _pbase, DNode_t * const _psch);
 
-extern err_t DList_UnRingReplaceNode(DList_t* const _pdlst, DNode_t* const _preplace);
-extern err_t DList_UnRingInsert(DList_t * const _pdlst, DNode_t * const _pin);
-extern err_t DList_UnRingAdd(DList_t * const _pdlst, DNode_t * const _padd);
-extern err_t DList_UnRingRemove(DList_t * const _pdlst, DNode_t * const _prmv);
-extern err_t DList_UnRingDelete(DList_t * const _pdlst, DNode_t * const _pdel);
-extern void* DList_UnRingPop(DList_t * const _pdlst, DNode_t * const _ppop);
-extern err_t DList_UnRingSearch(DList_t * const _pdlst, DNode_t * const _psch);
-extern bool DList_IsEmpty(DList_t const * const _pdlst);
+err_t DList_UnRingReplaceNode(DList_t* const _pdlst, DNode_t* const _preplace);
+err_t DList_UnRingInsert(DList_t * const _pdlst, DNode_t * const _pin);
+err_t DList_UnRingAdd(DList_t * const _pdlst, DNode_t * const _padd);
+err_t DList_UnRingRemove(DList_t * const _pdlst, DNode_t * const _prmv);
+err_t DList_UnRingDelete(DList_t * const _pdlst, DNode_t * const _pdel);
+void* DList_UnRingPop(DList_t * const _pdlst, DNode_t * const _ppop);
+err_t DList_UnRingSearch(DList_t * const _pdlst, DNode_t * const _psch);
+bool  DList_Empty(DList_t const * const _pdlst);
 
 #ifdef __cplusplus
 }

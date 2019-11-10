@@ -84,7 +84,7 @@ err_t SList_Search(SNode_t * const _pbase, SNode_t * const _psch, ListType_t _lt
 extern err_t DualList_UnRingReplace(DList_t * const _pdlst,
     DNode_t const * const _preplaced, DNode_t* const _preplacer)
 {
-    if (DList_IsEmpty(_pdlst)    ||
+    if (DList_Empty(_pdlst)    ||
         NULL == _preplaced          ||
         NULL == _preplacer) {
         return ERR_NULL;
@@ -131,7 +131,7 @@ err_t DList_UnRingAdd(DList_t* const _pdlst, DNode_t* const _padd)
     if (NULL == _pdlst || NULL == _padd) {
         return ERR_NULL;
     }
-    if (DList_IsEmpty(_pdlst)) {
+    if (DList_Empty(_pdlst)) {
         _padd->pprv     = NULL;
         _padd->pnxt     = NULL;
         _pdlst->pdhead  = _padd;
@@ -147,12 +147,17 @@ err_t DList_UnRingAdd(DList_t* const _pdlst, DNode_t* const _padd)
 
 err_t DList_UnRingDelete(DList_t* const _pdlst, DNode_t * const _pdel)
 {
-    if (DList_IsEmpty(_pdlst) || NULL == _pdel) {
+    if (NULL == _pdlst || NULL == _pdel) {
+        return ERR_NULL;
+    }
+    if (DList_Empty(_pdlst)) {
         return ERR_NULL;
     }
     if (_pdel == _pdlst->pdhead) {
         _pdlst->pdhead = _pdlst->pdhead->pnxt;
-        _pdlst->pdhead->pprv = NULL;
+        if (_pdlst->pdhead) {
+            _pdlst->pdhead->pprv = NULL;
+        }
     }
     else if (_pdel == _pdlst->pdtail) {
         _pdlst->pdtail->pprv->pnxt = NULL;
@@ -167,7 +172,7 @@ err_t DList_UnRingDelete(DList_t* const _pdlst, DNode_t * const _pdel)
 
 err_t DList_UnRingSearch(DList_t* const _pdlst, DNode_t * const _psrch)
 {
-    if (DList_IsEmpty(_pdlst) || NULL == _psrch) {
+    if (DList_Empty(_pdlst) || NULL == _psrch) {
         return ERR_NULL;
     }
     DNode_t* pforward = _pdlst->pdhead;
@@ -185,7 +190,7 @@ err_t DList_UnRingSearch(DList_t* const _pdlst, DNode_t * const _psrch)
     return ERR_NOT_FOUND;
 }
 
-bool DList_IsEmpty(DList_t const * const _pdlst)
+bool DList_Empty(DList_t const * const _pdlst)
 {
-    return (bool)_pdlst->pdhead;
+    return (NULL == _pdlst->pdhead);
 }

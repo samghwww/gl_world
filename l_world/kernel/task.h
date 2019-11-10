@@ -14,6 +14,9 @@ History:
 
 #include "../lib/queue.h"
 #include "../inc/err.h"
+#include "../inc/typedef.h"
+
+//#include <limits.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -22,6 +25,9 @@ extern "C" {
 #define TASK_PRIO_MAX                       32
 
 #define TASK_PRIO_AMOUNT_DEFAULT            6
+
+#define BIT_CNT_OF_BYTE                     (sizeof(unsigned char)<<3)
+#define BIT_CNT_OF_BYTES(bc)                (BIT_CNT_OF_BYTE * (bc))
 
 #if (defined(CFG_TASK_PRIO_AMOUNT) && CFG_TASK_PRIO_AMOUNT)
     #define TASK_PRIO_AMOUNT        CFG_TASK_PRIO_AMOUNT
@@ -72,11 +78,22 @@ typedef struct task {
 } Task_t;
 
 typedef struct {
-    TaskPrio_t  rdyHighestPrio;
+    ux_t        rdyPrioRecord;
     Queue_t     queueArray[TASK_PRIO_AMOUNT];
 } TaskManager_t;
 
 extern TaskManager_t TaskManager;
+
+static inline ux_t Task_CZL(ux_t n)
+{
+    sx_t c = BIT_CNT_OF_BYTES(sizeof(n));
+    while (--c >= 0) {
+        if ((n>>c)&1) {
+            break;
+        }
+    }
+    return (BIT_CNT_OF_BYTES(sizeof(n)) - 1) - c;
+}
 
 // Call/Invoke task entry function.
 static inline void Task_CallFunc(Task_t const * const _ptsk)
@@ -96,14 +113,19 @@ static inline TaskSta_t Task_GetSta(Task_t const * const _ptsk)
     return _ptsk->sta;
 }
 
-static inline void Task_SetReadyHighestPrio(TaskPrio_t _rdyHighestPrio)
+static inline void Task_SetRdyPrioRecord(TaskPrio_t _rdyPrio)
 {
-    TaskManager.rdyHighestPrio = _rdyHighestPrio;
+    TaskManager.rdyPrioRecord |= ((ux_t)1) << ((BIT_CNT_OF_BYTES(sizeof(ux_t)) - 1) - _rdyPrio);
+}
+
+static inline void Task_ClrRdyPrioRecord(TaskPrio_t _rdyPrio)
+{
+    TaskManager.rdyPrioRecord &=~ (((ux_t)1) << ((BIT_CNT_OF_BYTES(sizeof(ux_t)) - 1) - _rdyPrio));
 }
 
 static inline TaskPrio_t Task_GetReadyHighestPrio(void)
 {
-    return TaskManager.rdyHighestPrio;
+    return Task_CZL(TaskManager.rdyPrioRecord);
 }
 
 Task_t* Task_GetHighester(void);

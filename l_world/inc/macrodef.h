@@ -20,6 +20,9 @@ extern "C" {
 #endif
 
 
+#define MAX(a, b)           ( ((a) > (b)) ? (a) : (b) )
+#define MIN(a, b)           ( ((a) < (b)) ? (a) : (b) )
+
 // Macro calculate/get the size/lenght of array.
 // the parameter/argument must be array name but not pointer.
 #define ARRAY_SIZE(arr)      ( sizeof(arr)/sizeof(arr[0]) )

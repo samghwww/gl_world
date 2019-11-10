@@ -42,7 +42,7 @@ static inline bool task_checkPriorityValid(TaskPrio_t _prio)
 // Return the corresponding queue pointer of priority N.
 static inline Queue_t *task_getPriorityNQueue(TaskPrio_t _prio)
 {
-    return (Queue_t*)TaskManager.queueArray;
+    return &TaskManager.queueArray[_prio];
 }
 
 // Update the highest prority for next time task switch;
@@ -60,36 +60,54 @@ static inline void task_updateHighestPriority(void)
     Task_SetReadyHighestPrio(TASK_PRIO_LOWEST);
 }
 
-static inline TaskPrio_t task_getHighestPriority(void)
+static inline bool task_prioEmpty(TaskPrio_t _prio)
 {
-    return 0;
+    return (NULL == task_getPriorityNQueue(_prio)->phead) ? true : false;
 }
 
 // Get the highest priority task.
 Task_t *Task_GetHighester(void)
 {
-    return (Task_t*)TaskManager.queueArray[task_getHighestPriority()].phead;
-    #if 0
-    
-    return NULL;
-    #endif
+    TaskPrio_t hightestPrio = Task_GetReadyHighestPrio();
+    Task_t *ptsk = Queue_GetHead(task_getPriorityNQueue(hightestPrio));
+    if (ptsk) {
+        if (NULL == ptsk->pnxt) {
+            Task_ClrRdyPrioRecord(hightestPrio);
+        }
+    }
+    else {
+        Task_ClrRdyPrioRecord(hightestPrio);
+    }
+    return ptsk;
 }
 
 err_t Task_Add(Task_t* const _ptskPut)
 {
+    err_t errCode;
     if (NULL == _ptskPut) {
         return ERR_NULL;
     }
     if (!task_checkPriorityValid(_ptskPut->prio)) {
         return ERR_INVALID_PARAM;
     }
-    return Queue_Add(task_getPriorityNQueue(_ptskPut->prio), _ptskPut);
+    errCode = Queue_Add(task_getPriorityNQueue(_ptskPut->prio), _ptskPut);
+    if (ERR_SUCCEED == errCode) {
+        Task_SetRdyPrioRecord(_ptskPut->prio);
+    }
+    return errCode;
 }
 
 err_t Task_Del(Task_t const * const _ptskDel)
 {
+    err_t errCode;
     if (NULL == _ptskDel) {
         return ERR_NULL;
     }
-    return Queue_Delete(task_getPriorityNQueue(_ptskDel->prio), _ptskDel);
+    errCode = Queue_Delete(task_getPriorityNQueue(_ptskDel->prio), _ptskDel);
+    if (ERR_SUCCEED == errCode) {
+        if (task_prioEmpty(_ptskDel->prio)) {
+            Task_ClrRdyPrioRecord(_ptskDel->prio);
+        }
+    }
+    return errCode;
 }

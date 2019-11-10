@@ -32,13 +32,15 @@ extern "C" {
 #define MM_POOL_NUNBER_DEFAULT          ( 1U )
 // Default size of memory pool.
 #define MM_POOL_SIZE_DEFAULT            MM_POOL_SIZE_DEF(1024*2)
+// Default length of memory pool in bytes
+#define MM_POOL_LENGTH_DEFAULT          (MM_POOL_SIZE_DEFAULT * sizeof(void*))
 // Default memory pool.
 #define MM_POOL_DEFAULT                 ( &MemoryPool[0] )
 // Default memory control block, used for control memory pool.
 #define MM_MCB_DEFAULT                  ( &MemoryCtrlBlock[0] )
 
 // Macro use to initialize memory pool.
-#define MM_INIT_DEF(...)                mm_init(MM_POOL_DEFAULT, MM_POOL_SIZE_DEFAULT)
+#define MM_INIT_DEF(...)                mm_init(MM_POOL_DEFAULT, MM_POOL_LENGTH_DEFAULT)
 
 // Memory block base data type.
 typedef struct mblk {
@@ -64,11 +66,11 @@ typedef struct{
     ux_t     sz;        // memory pool size.
 } mm_t;
 
-extern void* const MemoryPool[MM_POOL_SIZE_DEFAULT];
+extern void const * MemoryPool[MM_POOL_SIZE_DEFAULT];
 extern mm_t MemoryCtrlBlock[MM_POOL_NUNBER_DEFAULT];
 
 err_t mm_init(void * const _pmm, ux_t _mmSz);
-void* mm_malloc(mm_t * const _pmm, ux_t _sz);
+void* mm_malloc(mm_t * const _pmm, ux_t _allocSz);
 void* mm_realloc(mm_t * const _pmm, void const * const _prealloc, ux_t _reallocSz);
 void mm_free(mm_t * const _pmm, void const * const _pfree);
 

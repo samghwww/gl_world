@@ -90,7 +90,6 @@ extern "C" {
     #define dbg_ng(...)             dbg_print(__VA_ARGS__)
 
     #define dbg_msgl(...)           dbg_printl(__VA_ARGS__)
-    #define dbg_msgl(...)           dbg_printl(__VA_ARGS__)
     #define dbg_infol(...)          dbg_printl(__VA_ARGS__)
     #define dbg_errl(...)           dbg_printl(__VA_ARGS__)
     #define dbg_warnl(...)          dbg_printl(__VA_ARGS__)
@@ -133,7 +132,6 @@ extern "C" {
     #define dbg_ok(...)
     #define dbg_ng(...)
 
-    #define dbg_msgl(...)
     #define dbg_msgl(...)
     #define dbg_infol(...)
     #define dbg_errl(...)

@@ -15,28 +15,45 @@ History:
 #include "../inc/err.h"
 #include "../inc/typedef.h"
 
+#include <stdbool.h>
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 
+typedef enum {
+    FIFO_MODE_NORMAL,
+    FIFO_MODE_CIRCLE_OVERRIDE,
+    FIFO_MODE_CIRCLE_NORMAL,
+} FifoMode_t;
+
 typedef struct {
-    void * pbuf;
-    ux_t bufLen;
+    union {
+        void *pvbuf;
+        u8   *pbuf;
+    };
+    union {
+        ux_t capacity;
+        ux_t length;
+    };
     ux_t rdIdx;
     ux_t wrIdx;
 } Fifo_t;
 
 
-extern err_t Fifo_Create(ux_t _fifoBufLen);
-extern err_t Fifo_Put(Fifo_t * const _pfifo, u8 _byte);
-extern err_t Fifo_Pop(Fifo_t * const _pfifo, u8 * const _pbyte);
-extern err_t Fifo_Peek(Fifo_t * const _pfifo, u8 * const _pbyte);
-extern err_t Fifo_Peeks(Fifo_t * const _pfifo, u8 * const _prxBuf, ux_t _rxBufLen);
-extern err_t Fifo_Write(Fifo_t * const _pfifo, u8 * const _pwrBuf, ux_t _wrBufLen);
-extern err_t Fifo_Read(Fifo_t * const _pfifo, u8 * const _prdBuf, ux_t _rdBufLen);
-extern err_t Fifo_Reset(Fifo_t * const _pfifo);
-extern err_t Fifo_IsEmpty(Fifo_t const* const _pfifo);
-extern err_t Fifo_GetLenght(Fifo_t const* const _pfifo);
+err_t Fifo_Create(Fifo_t** _ppfifo, ux_t _fifoBufLen);
+err_t Fifo_CreateStatic(Fifo_t** _ppfifo, void const* const _pfifoBuf, ux_t _fifoBufLen);
+err_t Fifo_Put(Fifo_t * const _pfifo, u8 _byte);
+err_t Fifo_Pop(Fifo_t * const _pfifo, u8 * const _pbyte);
+err_t Fifo_Peek(Fifo_t * const _pfifo, u8 * const _pbyte);
+ux_t  Fifo_Peeks(Fifo_t * const _pfifo, u8 * const _prxBuf, ux_t _rxBufLen);
+ux_t  Fifo_Write(Fifo_t * const _pfifo, u8 * const _pwrBuf, ux_t _wrBufLen);
+ux_t  Fifo_Read(Fifo_t * const _pfifo, u8 * const _prdBuf, ux_t _rdBufLen);
+err_t Fifo_Reset(Fifo_t * const _pfifo);
+ux_t  Fifo_GetLength(Fifo_t const* const _pfifo);
+ux_t  Fifo_GetRestLength(Fifo_t const* const _pfifo);
+bool  Fifo_Empty(Fifo_t const* const _pfifo);
+
 #ifdef __cplusplus
 }
 #endif

@@ -23,7 +23,7 @@ typedef struct event {
 
 } Event_t;
 
-static inline bool Event_IsEmpty(void)
+static inline bool Event_Empty(void)
 {
     return true;
 }

@@ -23,7 +23,7 @@ void Scheduler(void)
 {
     Task_t *ptsk;
     while (ptsk = Task_GetHighester()) {
-        if (!Event_IsEmpty()) {
+        if (!Event_Empty()) {
             Event_Handler(); // Handle event here.
         }
         Task_SetSta(ptsk, TASK_STA_RUNNING);
