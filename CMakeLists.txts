@@ -1,0 +1,46 @@
+
+cmake_minimum_required(VERSION 3.16)
+
+# set the project name
+project(leetcode VERSION 1.0)
+
+set(CMAKE_C_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
+
+#add_compile_definitions()
+#target_compile_definitions()
+add_definitions(-fsanitize=address)
+
+file(GLOB_RECURSE C_FILES
+    *.c
+    *.h
+)
+file(GLOB_RECURSE REMOVE_SOURCES
+    "${PROJECT_SOURCE_DIR}/CMakeFiles/*"
+    "${PROJECT_SOURCE_DIR}/build/*"
+    "${PROJECT_SOURCE_DIR}/.vscode/*"
+    "${PROJECT_SOURCE_DIR}/.build/*"
+)
+set(SOURCE_FILES  ${C_FILES})
+list(REMOVE_ITEM SOURCE_FILES ${REMOVE_SOURCES})
+
+# 接下来就是包含头文件路径,比如某些库函数这些,直接设置头文件就行,
+# 因为我们一般不会去改他,包含就行
+include_directories(
+    *
+)
+
+set(TARGET leetcode)
+
+# add the executable
+add_executable(${TARGET} ${SOURCE_FILES})
+target_link_libraries(
+    ${TARGET}
+    asan.a
+    libpthread.so
+    libgcc_s.so
+    libm.so.6
+    librt.so
+    libdl.so
+    libasan.so
+)
